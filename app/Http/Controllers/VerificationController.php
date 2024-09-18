@@ -7,25 +7,32 @@ use App\Models\User;
 
 class VerificationController extends Controller
 {
-    public function index() 
+    public function homePageView() 
     {
         return view('home');
     }
 
-    public function submit(Request $request) 
+    public function verificationCheck(Request $request) 
     {
         $request->validate([
             'id_card_no' => 'required|string',
+            'phone' => 'required|string'
         ]);
 
         $idCardNo = $request->input('id_card_no');
+        $phone = $request->input('phone');
 
-        $user = User::where('id_card_no', $idCardNo)->first();
+        $user = User::where('id_card_no', $idCardNo)
+                ->where('phone', $phone)
+                ->first();
 
         if ($user) {
-            return redirect('/approvals');
+            return redirect('/approval');
         } else {
-            return redirect('/add-approval');
+            return redirect()->route('add-approval')->with([
+                'id_card_no' => $idCardNo,
+                'phone' => $phone
+            ]);
         }
     }
 }

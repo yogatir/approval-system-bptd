@@ -9,6 +9,8 @@
         @csrf
         <label for="id_card_no">ID Card Number:</label>
         <input type="text" id="id_card_no" name="id_card_no" required>
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
         <button type="submit">Submit</button>
     </form>
 </body>
