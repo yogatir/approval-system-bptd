@@ -12,24 +12,43 @@
 
     <!-- Navbar -->
     <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex space-x-8">
-                    <a href="{{ route('operator-dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-24">
+                <!-- Left Logo -->
+                <div class="flex items-center">
+                    <img src="{{ asset('storage/app/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
+                    <!-- Optional Text next to Logo -->
+                </div>
+
+                <div class="hidden md:flex space-x-6 items-center">
+
+                    <a href="{{ route('operator-dashboard') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
                         Dashboard
                     </a>
 
-                    <a href="{{ route('operator-billing') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
+                    <a href="{{ route('operator-billing') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
                         E-Billing
                     </a>
 
-                    <a href="{{ route('operator-list') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
+                    <a href="{{ route('operator-list') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
                         Petugas
                     </a>
 
-                    <a href="{{ route('sign-out') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
-                        Sign Out
-                    </a>
+                    @auth
+                        <a href="{{ route('sign-out') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                            Sign Out
+                        </a>
+                    @endauth
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="navToggle" class="text-gray-700 hover:text-gray-900 focus:outline-none">
+                        <!-- Hamburger Icon -->
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
