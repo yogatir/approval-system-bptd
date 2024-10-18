@@ -20,30 +20,59 @@
                     <!-- Optional Text next to Logo -->
                 </div>
 
-                <!-- Right Menu -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#" class="text-gray-700 hover:text-gray-900">Informasi Layanan</a>
-                    <!-- <a href="#" class="text-gray-700 hover:text-gray-900">Menu Permohonan</a> -->
-                    <div class="relative">
-                        <button class="text-white hover:text-gray-300 focus:outline-none" id="dropdownButton">
-                            More
+                    <div class="relative group">
+                        <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-lg font-medium">
+                            Informasi Layanan
+                            <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
+                            </svg>
                         </button>
-                        <div id="dropdownMenu" class="absolute bg-white text-gray-800 shadow-lg mt-2 w-48 rounded-lg hidden">
-                            <div class="py-2">
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu E</a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu F</a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu G</a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu H</a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu I</a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-200">Menu J</a>
-                                <!-- Add more menu items here -->
-                            </div>
+
+                        <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
+                            <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-100">Peraturan Terkait</a>
+                            <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-100">Objek Sewa</a>
                         </div>
                     </div>
-                    <a href="#" class="text-gray-700 hover:text-gray-900">Survey Kepuasan Layanan</a>
-                    <a href="#" class="text-gray-700 hover:text-gray-900">Customer Service</a>
+
                     @auth
-                        <a href="#" class="text-gray-700 hover:text-gray-900">Sign Out</a>
+                        <div class="relative group">
+                            <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-lg font-medium">
+                                Menu Permohonan
+                                <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
+                                <a href="{{ route('add-approval') }}" class="block px-4 py-2 text-lg hover:bg-gray-100">Upload Dokumen</a>
+                                <a href="{{ route('approval-list') }}" class="block px-4 py-2 text-lg hover:bg-gray-100">Cek Status Permohonan</a>
+                                <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-100">E-Billing</a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="openModal relative group">
+                            <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-lg font-medium">
+                                Menu Permohonan
+                                <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    @endauth
+
+                    <a href="#" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                        Survey Kepuasan Layanan
+                    </a>
+
+                    <a href="#" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                        Customer Service
+                    </a>
+
+                    @auth
+                        <a href="#" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                            Sign Out
+                        </a>
                     @endauth
                 </div>
 
@@ -131,52 +160,6 @@
                 if (event.target === modal) {
                     modal.classList.add('hidden');
                 }
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownButton = document.getElementById('dropdownButton');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-
-            dropdownButton.addEventListener('mouseenter', () => {
-                dropdownMenu.classList.remove('hidden');
-            });
-
-            dropdownButton.addEventListener('mouseleave', () => {
-                dropdownMenu.classList.add('hidden');
-            });
-
-            dropdownMenu.addEventListener('mouseenter', () => {
-                dropdownMenu.classList.remove('hidden');
-            });
-
-            dropdownMenu.addEventListener('mouseleave', () => {
-                dropdownMenu.classList.add('hidden');
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownButton = document.getElementById('dropdownButton');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-
-            dropdownButton.addEventListener('mouseenter', () => {
-                dropdownMenu.classList.remove('hidden');
-            });
-
-            dropdownButton.addEventListener('mouseleave', () => {
-                dropdownMenu.classList.add('hidden');
-            });
-
-            dropdownMenu.addEventListener('mouseenter', () => {
-                dropdownMenu.classList.remove('hidden');
-            });
-
-            dropdownMenu.addEventListener('mouseleave', () => {
-                dropdownMenu.classList.add('hidden');
             });
         });
     </script>
