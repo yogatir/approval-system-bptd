@@ -17,7 +17,7 @@ class LocationSeeder extends Seeder
             ['name' => 'TERMINAL MENGWI', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'PELABUHAN PADANGBAI', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'PELABUHAN SAMPALAN', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'PELABUHAN SAMBANJUL', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'PELABUHAN BIAS MUNJUL', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'PELABUHAN GILIMANUK', 'created_at' => now(), 'updated_at' => now()]
         ]);
     }
