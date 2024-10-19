@@ -32,4 +32,9 @@ class Approval extends Model
     {
         return $this->hasMany(Document::class);
     }
+
+    public function billings()
+    {
+        return $this->hasMany(Billing::class);
+    }
 }

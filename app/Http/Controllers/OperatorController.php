@@ -23,7 +23,7 @@ class OperatorController extends Controller
 
     public function billingView()
     {
-        $approvals = Approval::with(['user', 'location', 'documents'])->whereHas('user', function ($query) {
+        $approvals = Approval::with(['user', 'location', 'billings'])->whereHas('user', function ($query) {
             $query->where('role', 'APPLICANT');
         })->where('doc_approval', 2)->where('kpnl_approval', 2)->where('central_approval', 2)->get();
 
@@ -37,6 +37,37 @@ class OperatorController extends Controller
         return view('operator-documents', compact('approval', 'documents', 'action'));
     }
 
+    public function updateApproval(Approval $approval, Request $request) 
+    {
+        if (
+            ($approval->doc_approval == 2 && $approval->kpnl_approval == 2 && $approval->central_approval == 2) || 
+            ($approval->doc_approval == 3 || $approval->kpnl_approval == 3 || $approval->central_approval == 3)
+        ) 
+        {
+            return redirect()->back()->with('error', 'Not allowed to update this data.');
+        }
+
+        $rules = [
+            'action' => 'required|in:0,1,2,3',
+            'column_name' => 'required|string'
+        ];
+
+        if ($request->input('action') == 3) {
+            $rules['description'] = 'required|string';
+        }
+
+        $request->validate($rules);
+
+        $approval->update(
+            [
+                $request->input('column_name') => $request->input('action'),
+                'description' => $request->input('description')
+            ]
+        );
+
+        return redirect(route('operator-dashboard'));
+    }
+
     public function addBillingView(Approval $approval)
     {
         return view('add-billing', compact('approval'));
@@ -45,9 +76,9 @@ class OperatorController extends Controller
     public function submitBilling(Request $request)
     {
         $request->validate([
-            'approval_id' => 'required|approval_id',
+            'approval_id' => 'required|integer|exists:approvals,id',
             'code' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'nullable|string'
         ]);
 
         Billing::create([

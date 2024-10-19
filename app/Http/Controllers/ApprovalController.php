@@ -29,6 +29,17 @@ class ApprovalController extends Controller
         return view('list-approval', compact('approvals'));
     }
 
+    public function listBillingView()
+    {
+        $user = auth()->user();
+
+        $approvals = Approval::with(['user', 'location', 'billings'])->whereHas('user', function ($query) {
+            $query->where('role', 'APPLICANT');
+        })->whereHas('billings')->where('doc_approval', 2)->where('kpnl_approval', 2)->where('central_approval', 2)->where('user_id', $user->id)->get();
+
+        return view('list-billing', compact('approvals'));
+    }
+
     public function addApproval(Request $request)
     {
         $request->validate([

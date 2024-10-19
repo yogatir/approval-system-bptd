@@ -17,10 +17,7 @@
                                 <th class="px-4 py-2">Pemohon</th>
                                 <th class="px-4 py-2">Lokasi</th>
                                 <th class="px-4 py-2">Tanggal</th>
-                                <th class="px-4 py-2">Dokumen</th>
-                                <th class="px-4 py-2">KPNL</th>
-                                <th class="px-4 py-2">Central</th>
-                                <th class="px-4 py-2">Keterangan</th>
+                                <th class="px-4 py-2">Kode Billing</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,10 +36,7 @@
                                         <td class="border px-4 py-2">{{ $approval->user->name }}</td>
                                         <td class="border px-4 py-2">{{ $approval->location->name }}</td>
                                         <td class="border px-4 py-2">{{ $approval->created_at->format('Y-m-d') }}</td>
-                                        <td class="border px-4 py-2 {{ $docStatus[1] }}">{{ $docStatus[0] }}</td>
-                                        <td class="border px-4 py-2 {{ $kpnlStatus[1] }}">{{ $kpnlStatus[0] }}</td>
-                                        <td class="border px-4 py-2 {{ $centralStatus[1] }}">{{ $centralStatus[0] }}</td>
-                                        <td class="border px-4 py-2">{{ $approval->description }}</td>
+                                        <td class="border px-4 py-2">{{ $approval->billings->first()->code }}</td>
                                     </tr>
                                 @endforeach
                             </ul>

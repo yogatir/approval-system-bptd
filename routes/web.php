@@ -33,6 +33,10 @@ Route::post('/submit-billing', [
     OperatorController::class, 'submitBilling'
 ])->name('submit-billing');
 
+Route::put('/update-approval/{approval}', [
+    OperatorController::class, 'updateApproval'
+])->name('update-approval');
+
 Route::get('/sign-out', [
     VerificationController::class, 'verificationFlush'
 ])->name('sign-out');
@@ -76,3 +80,7 @@ Route::post('/submit-add-approval', [
 Route::get('/approval-list', [
     ApprovalController::class, 'listApprovalView'
 ])->name('approval-list');
+
+Route::get('/billing-list', [
+    ApprovalController::class, 'listBillingView'
+])->name('billing-list');

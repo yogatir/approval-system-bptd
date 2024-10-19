@@ -33,10 +33,15 @@
                                         <td class="border px-4 py-2">{{ $approval->location->name }}</td>
                                         <td class="border px-4 py-2">{{ $approval->created_at }}</td>
                                         <td class="border px-4 py-2">{{ $approval->description }}</td>
-                                        <td class="border px-4 py-2"><a href="{{ route('operator-add-billing', $approval->id) }}" 
-                                            class="{{ $docStatus[1] }} text-black border-black border font-sm px-4 py-2 rounded-md">
-                                                Buat Billing
-                                            </a></td>
+                                        @if ($approval->billings && $approval->billings->count() > 0)
+                                            <td class="border px-4 py-2">{{ $approval->billings->first()->code }}</td>
+                                        @else
+                                            <td class="border px-4 py-2"><a href="{{ route('operator-add-billing', $approval->id) }}" 
+                                                class="bg-blue-400 text-white text-black border-black border font-sm px-4 py-2 rounded-md">
+                                                    Buat Billing
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

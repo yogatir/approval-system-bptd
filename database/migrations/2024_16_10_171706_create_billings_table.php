@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('approval_id');
             $table->string('code');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->foreign('approval_id')->references('id')->on('approvals')->onDelete('cascade');
         });
