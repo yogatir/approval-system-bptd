@@ -1,13 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
+    <div id="confirmationModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
+            <p class="text-gray-700 mb-6">Do you want to submit this form?</p>
+
+            <div class="flex justify-center space-x-4">
+                <button type="button" onclick="submitForm()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Yes, Submit</button>
+                <button type="button" onclick="closeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="text-2xl font-bold mb-6">User Form</h2>
+                    <h2 class="text-2xl font-bold mb-6">Formulir Pemohon</h2>
 
-                    <form action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form if="approvalForm" action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         @php $isRegistered = isset($user); @endphp
@@ -125,11 +147,25 @@
 
                         <div class="flex justify-end">
                             <a href="#" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2">Cancel</a>
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Submit</button>
+                            <button onclick="openModal()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('confirmationModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+        }
+
+        function submitForm() {
+            document.getElementById('approvalForm').submit();
+        }
+    </script>
 @endsection

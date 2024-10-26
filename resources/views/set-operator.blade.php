@@ -57,7 +57,19 @@
                                 <label for="address" class="block text-sm font-medium text-gray-700">Alamat</label>
                                 <input type="text" name="address" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Masukan Alamat" value="{{ $user->address ?? '' }}" required>
                             </div>
-                        </div>                    
+                        </div>    
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 {{ $user->password ? 'hidden' : 'block' }}">
+                            <div class="mb-4">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <input type="{{ $user->password ? 'hidden' : 'password' }}" name="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Masukan Password" value="{{ $user->password ?? '' }}" {{ $user->password ? 'required' : '' }}>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                                <input type="{{ $user->password ? 'hidden' : 'password' }}" name="confirm_password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Konfirmasi Password" value="{{ $user->password ?? '' }}" {{ $user->password ? 'required' : '' }}>
+                            </div>
+                        </div>    
 
                         <div class="flex justify-end">
                             <a href="#" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2">Cancel</a>

@@ -111,24 +111,38 @@ class OperatorController extends Controller
             'instance' => 'nullable|string',
             'gender' => 'required|in:MALE,FEMALE',
             'phone' => 'required|string',
-            'address' => 'nullable|string'
+            'address' => 'nullable|string',
+            'password' => 'required|string',
+            'confirm_password' => 'required|string'
         ]);
+
+        if ($request->input('password') !== $request->input('confirm_password')) {
+            return redirect()->back()->with('error', 'Confirm password is not same.');
+        }
 
         User::updateOrCreate(
             [
-                'phone' => $request->input('phone'),
-                'id_card_no' => $request->input('id_card_no')
+                'email' => $request->input('email'),
+                'role' => 'OPERATOR'
             ],
             [
+                'id_card_no' => $request->input('id_card_no'),
+                'phone' => $request->input('phone'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'instance' => $request->input('instance'),
                 'gender' => $request->input('gender'),
-                'role' => 'OPERATOR',
                 'address' => $request->input('address')
             ]
         );
 
         return redirect(route('operator-list'));
+    }
+
+    public function destroyOperator(User $user) 
+    {
+        $user->delete();
+
+        return redirect()->route('operator-list')->with('success', 'User deleted successfully!');
     }
 }

@@ -10,28 +10,31 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Navbar -->
     <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-24">
-                <!-- Left Logo -->
                 <div class="flex items-center">
                     <img src="{{ asset('storage/app/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
-                    <!-- Optional Text next to Logo -->
                 </div>
 
                 <div class="hidden md:flex space-x-6 items-center">
                     <div class="relative group">
-                        <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
+                        <button id="mainDropdown" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
                             Informasi Layanan
-                            <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
+                            <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
-                        <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
+                        <div id="dropdownMenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
                             <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Peraturan Terkait</a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Objek Sewa</a>
+                            <div class="relative group">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100" id="objekSewa">Objek Sewa</a>
+
+                                <div id="submenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10 left-full top-0">
+                                    <a href="{{ route('terminal-mengwi') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Terminal Mengwi</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -160,6 +163,26 @@
                 if (event.target === modal) {
                     modal.classList.add('hidden');
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#mainDropdown').on('mouseenter', function(e) {
+                e.preventDefault();
+                $('#dropdownMenu').toggle();
+            });
+
+            $('#objekSewa').on('mouseenter', function() {
+                $('#submenu').show();
+            }).on('mouseleave', function() {
+                $('#submenu').hide();
+            });
+
+            $('#submenu').on('mouseenter', function() {
+                $(this).show();
+            }).on('mouseleave', function() {
+                $(this).hide();
             });
         });
     </script>

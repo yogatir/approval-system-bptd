@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('kpnl_approval')->default(false);
             $table->boolean('central_approval')->default(false);
             $table->text('description')->nullable();
+            $table->text('request_type')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
