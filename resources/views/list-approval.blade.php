@@ -36,7 +36,13 @@
                                         <td class="border px-4 py-2">{{ $approval->user->name }}</td>
                                         <td class="border px-4 py-2 {{ $docStatus[1] }}">{{ $docStatus[0] }}</td>
                                         <td class="border px-4 py-2 {{ $rentStatus[1] }}">{{ $rentStatus[0] }}</td>
-                                        <td class="border px-4 py-2"></td>
+                                        <td class="border px-4 py-2">
+                                            @if ($approval->billings->first()->id > 0)
+                                                <a href="{{ asset('storage/'. $approval->documents->first()->path) }}" class="bg-blue-500 text-white text-md px-3 py-1 rounded hover:bg-blue-600">Download</a>
+                                            @else
+                                            <a href="#" class="bg-gray-500 text-white text-md px-3 py-1 rounded">Download</a>
+                                            @endif
+                                        </td>
                                         <td class="border px-4 py-2">{{ $approval->description }}</td>
                                     </tr>
                                 @endforeach

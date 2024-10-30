@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body style="background-image: url('{{ asset('storage/app/home-bg.jpeg') }}');" class="bg-cover bg-center bg-no-repeat min-h-[calc(100vh-64px)] w-full">
 
     <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
@@ -27,7 +27,7 @@
                         </button>
 
                         <div id="dropdownMenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                            <a href="https://drive.google.com/drive/folders/15NYOaNOYWJv-hI6BxWmfVH_cDHawEAKF" class="block px-4 py-2 text-sm hover:bg-gray-100">Peraturan Terkait</a>
+                            <a href="https://drive.google.com/drive/folders/15NYOaNOYWJv-hI6BxWmfVH_cDHawEAKF" class="block px-4 py-2 text-sm hover:bg-gray-100">Regulasi</a>
                             <div class="relative group">
                                 <button class="px-4 py-2 text-sm inline-flex w-full hover:bg-gray-100" id="objekSewa">
                                     Objek Sewa
@@ -39,7 +39,7 @@
 
                                 <div id="submenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10 left-full top-0">
                                     <a href="{{ route('terminal-mengwi') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Terminal Mengwi</a>
-                                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Pelabuhan Sampalan</a>
+                                    <!-- <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Pelabuhan Sampalan</a> -->
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
 
                     @auth
                         <a href="{{ route('sign-out') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
-                            Sign Out
+                            Keluar
                         </a>
                     @endauth
                 </div>
@@ -122,7 +122,7 @@
     <div id="ktpModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden z-50">
         <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h2 class="text-xl font-semibold mb-4">Login</h2>
+            <h2 class="text-xl font-semibold mb-4">Daftar / Masuk</h2>
             <form id="ktpForm" method="POST" action="{{ route('submit-id-card-no') }}">
                 @csrf
                 <div class="mb-4">
@@ -134,8 +134,8 @@
                     <input type="text" name="phone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
-                    <button id="closeModal" type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-3 rounded">Cancel</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Masuk</button>
+                    <button id="closeModal" type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-3 rounded">Batal</button>
                 </div>
             </form>
         </div>
@@ -195,6 +195,25 @@
             }).on('mouseleave', function() {
                 $(this).hide();
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.filter-btn').click(function(){
+                var target = $(this).data('target');
+                
+                $('.grid').addClass('hidden');
+                
+                $('#' + target).removeClass('hidden');
+                
+                $('.filter-btn').removeClass('bg-indigo-600 text-white').addClass('text-gray-700');
+                $(this).removeClass('text-gray-700').addClass('bg-indigo-600 text-white');
+                
+                $('.description').addClass('hidden');
+                $('#' + target + '-description').removeClass('hidden');
+            });
+
+            $('.filter-btn[data-target="all-satpel"]').trigger('click');
         });
     </script>
 </body>

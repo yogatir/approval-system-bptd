@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Approval;
+use App\Models\Document;
 use App\Models\Billing;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class OperatorController extends Controller
     {
         $approvals = Approval::with(['user', 'location', 'billings'])->whereHas('user', function ($query) {
             $query->where('role', 'APPLICANT');
-        })->where('doc_approval', 2)->where('kpnl_approval', 2)->where('central_approval', 2)->get();
+        })->where('doc_approval', 2)->where('rental_approval', 2)->get();
 
         return view('operator-billing', compact('approvals'));
     }
@@ -78,6 +79,7 @@ class OperatorController extends Controller
         $request->validate([
             'approval_id' => 'required|integer|exists:approvals,id',
             'code' => 'required|string',
+            'file_billing' => 'required|file|mimes:pdf|max:512',
             'description' => 'nullable|string'
         ]);
 
@@ -85,6 +87,25 @@ class OperatorController extends Controller
             'approval_id' => $request->input('approval_id'),
             'code' => $request->input('code'),
             'description' => $request->input('description')
+        ]);
+
+        $datetime = Carbon::now()->format('YmdHis');
+
+        $approval = Approval::with(['user', 'location', 'billings'])->where('id', $request->input('approval_id'))->first();
+
+        $originalExtension = $request->file('file_billing')->getClientOriginalExtension(); 
+    
+        $fileName = $approval->user->id . '_' . $approval->location->id . '_' . $datetime . '_file_billing.' . $originalExtension;
+        
+        $filePath = $request->file('file_billing')->storeAs('uploads', $fileName, 'public');
+    
+
+        Document::create([
+            'user_id' => $approval->user->id,
+            'approval_id' => $approval->id,
+            'title' => $fileName,
+            'type' => 'DOCUMENT_BILLING',
+            'path' => $filePath
         ]);
 
         return redirect(route('operator-billing'));

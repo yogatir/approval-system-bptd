@@ -24,7 +24,9 @@ class ApprovalController extends Controller
     {
         $user = auth()->user();
 
-        $approvals = Approval::where('user_id', $user->id)->with(['user', 'location'])->get();
+        $approvals = Approval::where('user_id', $user->id)->with(['user', 'location','billings','documents' => function ($query) {
+            $query->where('type', 'DOCUMENT_BILLING');
+        }])->get();
 
         return view('list-approval', compact('approvals'));
     }

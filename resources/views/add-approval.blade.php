@@ -3,24 +3,24 @@
 @section('content')
     <div id="confirmationModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
-            <p class="text-gray-700 mb-6">Do you want to submit this form?</p>
+            <h2 class="text-xl font-bold mb-4">Apa anda yakin?</h2>
+            <p class="text-gray-700 mb-6">Simpan data permohonan?</p>
 
             <div class="flex justify-center space-x-4">
-                <button type="button" onclick="submitForm()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Yes</button>
-                <button type="button" onclick="closeConfirmationModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
+                <button type="button" onclick="submitForm()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Ya</button>
+                <button type="button" onclick="closeConfirmationModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Tidak</button>
             </div>
         </div>
     </div>
 
     <div id="cancelModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
-            <p class="text-gray-700 mb-6">Do you want to leave this page?</p>
+            <h2 class="text-xl font-bold mb-4">Apa anda yakin?</h2>
+            <p class="text-gray-700 mb-6">Batalkan permohonan?</p>
 
             <div class="flex justify-center space-x-4">
-                <a href="{{ route('approval-list') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Yes</a>
-                <button type="button" onclick="closeCancelModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
+                <a href="{{ route('approval-list') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Ya</a>
+                <button type="button" onclick="closeCancelModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Tidak</button>
             </div>
         </div>
     </div>
@@ -185,8 +185,8 @@
                         </div>                        
 
                         <div class="flex justify-end">
-                            <button onclick="openCancelModal()" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2">Cancel</button>
-                            <button onclick="openConfirmationModal()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Submit</button>
+                            <button onclick="openCancelModal()" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2">Batal</button>
+                            <button onclick="openConfirmationModal()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Kirim</button>
                         </div>
                     </form>
                 </div>
