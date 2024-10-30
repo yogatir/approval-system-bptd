@@ -27,12 +27,19 @@
                         </button>
 
                         <div id="dropdownMenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Peraturan Terkait</a>
+                            <a href="https://drive.google.com/drive/folders/15NYOaNOYWJv-hI6BxWmfVH_cDHawEAKF" class="block px-4 py-2 text-sm hover:bg-gray-100">Peraturan Terkait</a>
                             <div class="relative group">
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100" id="objekSewa">Objek Sewa</a>
+                                <button class="px-4 py-2 text-sm inline-flex w-full hover:bg-gray-100" id="objekSewa">
+                                    Objek Sewa
+                                    
+                                    <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
                                 <div id="submenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10 left-full top-0">
                                     <a href="{{ route('terminal-mengwi') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Terminal Mengwi</a>
+                                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Pelabuhan Sampalan</a>
                                 </div>
                             </div>
                         </div>
@@ -41,26 +48,30 @@
                     @auth
                         <div class="relative group">
                             <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
-                                Menu Permohonan
+                                Permohonan
                                 <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
                                 </svg>
                             </button>
 
                             <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                                <a href="{{ route('add-approval') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Upload Dokumen</a>
-                                <a href="{{ route('approval-list') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Cek Status Permohonan</a>
-                                <a href="{{ route('billing-list') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">E-Billing</a>
+                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
+                                <a href="{{ route('add-approval') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
                             </div>
                         </div>
                     @else
-                        <div class="openModal relative group">
+                        <div class="relative group">
                             <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-indigo-500 text-sm font-medium">
-                                Menu Permohonan
+                                Permohonan
                                 <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
                                 </svg>
                             </button>
+
+                            <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
+                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
+                                <a href="#" class="openModal block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
+                            </div>
                         </div>
                     @endauth
 

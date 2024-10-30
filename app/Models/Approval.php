@@ -13,8 +13,9 @@ class Approval extends Model
         'user_id',
         'location_id',
         'doc_approval',
-        'kpnl_approval',
-        'central_approval',
+        'rental_approval',
+        'detail_location',
+        'request_type',
         'description'
     ];
 

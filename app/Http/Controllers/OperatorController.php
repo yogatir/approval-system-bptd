@@ -40,8 +40,8 @@ class OperatorController extends Controller
     public function updateApproval(Approval $approval, Request $request) 
     {
         if (
-            ($approval->doc_approval == 2 && $approval->kpnl_approval == 2 && $approval->central_approval == 2) || 
-            ($approval->doc_approval == 3 || $approval->kpnl_approval == 3 || $approval->central_approval == 3)
+            ($approval->doc_approval == 2 && $approval->rental_approval == 2) || 
+            ($approval->doc_approval == 3 || $approval->rental_approval == 3)
         ) 
         {
             return redirect()->back()->with('error', 'Not allowed to update this data.');

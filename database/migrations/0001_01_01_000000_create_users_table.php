@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('id_card_no')->unique();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('instance')->nullable();
             $table->enum('gender', ['MALE', 'FEMALE'])->default('MALE');
             $table->enum('role', ['APPLICANT', 'OPERATOR'])->default('APPLICANT');
             $table->string('phone')->unique();

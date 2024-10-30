@@ -6,6 +6,7 @@ use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\LocationController;
 use App\Http\Middleware\OperatorMiddleware;
+use App\Http\Middleware\ApplicantMiddleware;
 
 Route::get('/', [
     VerificationController::class, 'homePageView'
@@ -68,6 +69,15 @@ Route::post('/operator-sign-in', [
     VerificationController::class, 'operatorVerificationCheck'
 ])->name('operator-sign-in');
 
+Route::middleware([ApplicantMiddleware::class])->group(function () {
+    Route::get('/approval-list', [
+        ApprovalController::class, 'listApprovalView'
+    ])->name('approval-list');
+    
+    Route::get('/billing-list', [
+        ApprovalController::class, 'listBillingView'
+    ])->name('billing-list');
+});
 
 Route::get('/sign-out', [
     VerificationController::class, 'verificationFlush'
@@ -84,14 +94,6 @@ Route::get('/add-approval', [
 Route::post('/submit-add-approval', [
     ApprovalController::class, 'addApproval'
 ])->name('submit-add-approval');
-
-Route::get('/approval-list', [
-    ApprovalController::class, 'listApprovalView'
-])->name('approval-list');
-
-Route::get('/billing-list', [
-    ApprovalController::class, 'listBillingView'
-])->name('billing-list');
 
 Route::get('/terminal-mengwi', [
     LocationController::class, 'terminalMengwiView'

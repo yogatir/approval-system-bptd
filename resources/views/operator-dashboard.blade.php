@@ -18,12 +18,10 @@
                             <thead>
                                 <tr>
                                     <th class="px-4 py-2">No</th>
-                                    <th class="px-4 py-2">Pemohon</th>
-                                    <th class="px-4 py-2">Lokasi</th>
-                                    <th class="px-4 py-2">Tanggal</th>
-                                    <th class="px-4 py-2">Dokumen</th>
-                                    <th class="px-4 py-2">KPNL</th>
-                                    <th class="px-4 py-2">Central</th>
+                                    <th class="px-4 py-2 w-1/4">Pemohon</th>
+                                    <th class="px-4 py-2">Verifikasi Dokumen</th>
+                                    <th class="px-4 py-2">Persetujuan Sewa</th>
+                                    <th class="px-4 py-2">E-Billing</th>
                                     <th class="px-4 py-2">Keterangan</th>
                                 </tr>
                             </thead>
@@ -31,29 +29,22 @@
                                 @foreach ($approvals as $approval)
                                 @php
                                     $docStatus = getStatusClass($approval->doc_approval);
-                                    $kpnlStatus = getStatusClass($approval->kpnl_approval);
-                                    $centralStatus = getStatusClass($approval->central_approval);
+                                    $rentStatus = getStatusClass($approval->rental_approval);
                                 @endphp
                                     <tr>
                                         <td class="border px-4 py-2">{{ $approval->id }}</td>
                                         <td class="border px-4 py-2">{{ $approval->user->name }}</td>
-                                        <td class="border px-4 py-2">{{ $approval->location->name }}</td>
-                                        <td class="border px-4 py-2">{{ $approval->created_at->format('Y-m-d') }}</td>
                                         <td class="border px-4 py-2">
                                             <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'doc_approval']) }}" class="{{ $docStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">
                                                 Lihat Dokumen
                                             </a>
                                         </td>
                                         <td class="border px-4 py-2">
-                                            <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'kpnl_approval']) }}" class="{{ $kpnlStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">
+                                            <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'rental_approval']) }}" class="{{ $rentStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">
                                                 Lihat Dokumen
                                             </a>
                                         </td>
-                                        <td class="border px-4 py-2">
-                                            <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'central_approval']) }}" class="{{ $centralStatus[1] }} text-black border-black border text-sm  px-4 py-2 rounded-md">
-                                                Lihat Dokumen
-                                            </a>
-                                        </td>
+                                        <td class="border px-4 py-2"></td>
                                         <td class="border px-4 py-2">{{ $approval->description }}</td>
                                     </tr>
                                 @endforeach

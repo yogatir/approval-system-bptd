@@ -55,11 +55,6 @@
                                         @case('DOCUMENT_PERMIT')
                                             Scan / Fotokopi Surat Ijin Usaha
                                             @break
-                                        @case('IMAGE')
-                                            Foto Object / Lokasi
-                                            @break
-                                        @default
-                                            Unknown Document Type
                                     @endswitch
                                     </td>
                                     <td class="border px-4 py-2">{{ $document->title }}</td>
