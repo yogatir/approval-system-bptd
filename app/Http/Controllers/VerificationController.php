@@ -35,7 +35,8 @@ class VerificationController extends Controller
                 ->first();
 
         if ($user) {
-            return redirect('/approval');
+            Auth::login($user);
+            return redirect(route('approval-list'));
         } else {
             return redirect()->route('add-approval')->with([
                 'id_card_no' => $idCardNo,

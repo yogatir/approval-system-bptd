@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -7,7 +8,17 @@ module.exports = {
     './resources/**/*.vue',
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100vw)' },  // Start from off-screen right
+          '100%': { transform: 'translateX(-100%)' },  // Move to off-screen left
+        },
+      },
+      animation: {
+        marquee: 'marquee 20s linear infinite',
+      },
+    },
   },
-  plugins: [],
+  plugins: []
 }

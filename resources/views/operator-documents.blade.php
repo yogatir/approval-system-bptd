@@ -6,6 +6,22 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     @if ($documents->isEmpty())
                         <p>Data Approval Tidak Ada</p>
                     @else
@@ -39,11 +55,6 @@
                                         @case('DOCUMENT_PERMIT')
                                             Scan / Fotokopi Surat Ijin Usaha
                                             @break
-                                        @case('IMAGE')
-                                            Foto Object / Lokasi
-                                            @break
-                                        @default
-                                            Unknown Document Type
                                     @endswitch
                                     </td>
                                     <td class="border px-4 py-2">{{ $document->title }}</td>
@@ -60,16 +71,21 @@
                 </div>
 
                 <div class="flex justify-end mt-4 mr-4 mb-4">
-                    <form action="#" method="POST" class="space-x-2">
+                    <form action="{{ route('update-approval', $approval) }}" method="POST" class="space-x-2">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $approval->id }}">
+                        @method('PUT')
+                        <div class="mb-4">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                            <textarea name="description" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        </div> 
+                        
                         <input type="hidden" name="column_name" value="{{ $action }}">
 
-                        <button type="submit" name="action" value="approve" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                        <button type="submit" name="action" value="2" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
                             Setujui
                         </button>
 
-                        <button type="submit" name="action" value="reject" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+                        <button type="submit" name="action" value="3" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
                             Tolak
                         </button>
                     </form>

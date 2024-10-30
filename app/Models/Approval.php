@@ -13,8 +13,9 @@ class Approval extends Model
         'user_id',
         'location_id',
         'doc_approval',
-        'kpnl_approval',
-        'central_approval',
+        'rental_approval',
+        'detail_location',
+        'request_type',
         'description'
     ];
 
@@ -31,5 +32,10 @@ class Approval extends Model
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+
+    public function billings()
+    {
+        return $this->hasMany(Billing::class);
     }
 }

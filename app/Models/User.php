@@ -20,7 +20,6 @@ class User extends Authenticatable
         'name',
         'id_card_no',
         'email',
-        'instance',
         'gender',
         'role',
         'phone',

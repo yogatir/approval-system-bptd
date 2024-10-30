@@ -24,9 +24,22 @@ class ApprovalController extends Controller
     {
         $user = auth()->user();
 
-        $approvals = Approval::where('user_id', $user->id)->with(['user', 'location'])->get();
+        $approvals = Approval::where('user_id', $user->id)->with(['user', 'location','billings','documents' => function ($query) {
+            $query->where('type', 'DOCUMENT_BILLING');
+        }])->get();
 
         return view('list-approval', compact('approvals'));
+    }
+
+    public function listBillingView()
+    {
+        $user = auth()->user();
+
+        $approvals = Approval::with(['user', 'location', 'billings'])->whereHas('user', function ($query) {
+            $query->where('role', 'APPLICANT');
+        })->whereHas('billings')->where('doc_approval', 2)->where('kpnl_approval', 2)->where('central_approval', 2)->where('user_id', $user->id)->get();
+
+        return view('list-billing', compact('approvals'));
     }
 
     public function addApproval(Request $request)
@@ -34,18 +47,18 @@ class ApprovalController extends Controller
         $request->validate([
             'id_card_no' => 'required|string',
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'instance' => 'nullable|string',
+            'email' => 'required|email',
             'gender' => 'required|in:MALE,FEMALE',
             'phone' => 'required|string',
             'address' => 'nullable|string',
+            'detail_location' => 'required|string',
+            'request_type' => 'required|string',
             'location_id' => 'required|exists:locations,id',
-            'file_id_card' => 'required|file|mimes:pdf|max:2048',
-            'file_npwp' => 'required|file|mimes:pdf|max:2048',
-            'file_document_request' => 'required|file|mimes:pdf|max:2048',
-            'file_agreement' => 'required|file|mimes:pdf|max:2048',
-            'file_permit' => 'required|file|mimes:pdf|max:2048',
-            'file_image' => 'required|file|image|mimes:jpeg,png,jpg|max:2048' 
+            'file_id_card' => 'required|file|mimes:pdf|max:512',
+            'file_npwp' => 'required|file|mimes:pdf|max:512',
+            'file_document_request' => 'required|file|mimes:pdf|max:512',
+            'file_agreement' => 'required|file|mimes:pdf|max:512',
+            'file_permit' => 'required|file|mimes:pdf|max:512' 
         ]);
 
         $user = User::where('id_card_no', $request->input('id_card_no'))
@@ -70,6 +83,8 @@ class ApprovalController extends Controller
 
         $approval = Approval::create([
             'user_id' => $user->id,
+            'request_type' => $request->input('request_type'),
+            'detail_location' => $request->input('detail_location'),
             'location_id' => $request->input('location_id')
         ]);
     
@@ -78,8 +93,7 @@ class ApprovalController extends Controller
             'file_npwp',
             'file_document_request',
             'file_agreement',
-            'file_permit',
-            'file_image'
+            'file_permit'
         ];
     
         $datetime = Carbon::now()->format('YmdHis');
@@ -88,9 +102,6 @@ class ApprovalController extends Controller
             if ($request->hasFile($fileField)) {
                 $fileType = '';
                 switch ($fileField) {
-                    case 'file_id_card':
-                        $fileType = 'DOCUMENT_ID_CARD';
-                        break;
                     case 'file_npwp':
                         $fileType = 'DOCUMENT_NPWP';
                         break;
@@ -104,7 +115,7 @@ class ApprovalController extends Controller
                         $fileType = 'DOCUMENT_PERMIT';
                         break;
                     default:
-                        $fileType = 'IMAGE';
+                        $fileType = 'DOCUMENT_ID_CARD';
                         break;
                 }
                 
@@ -124,7 +135,7 @@ class ApprovalController extends Controller
             }
         }
 
-        return redirect('/approval-list')->with('success', 'Approval added successfully!');
+        return redirect('/approval-list')->with('success', 'Anda berhasil daftar!');
     }
 
     public function approvalView()

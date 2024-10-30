@@ -22,20 +22,20 @@
 
                 <div class="hidden md:flex space-x-6 items-center">
 
-                    <a href="{{ route('operator-dashboard') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                    <a href="{{ route('operator-dashboard') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Dashboard
                     </a>
 
-                    <a href="{{ route('operator-billing') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                    <a href="{{ route('operator-billing') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         E-Billing
                     </a>
 
-                    <a href="{{ route('operator-list') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                    <a href="{{ route('operator-list') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Petugas
                     </a>
 
                     @auth
-                        <a href="{{ route('sign-out') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-lg border-transparent font-medium">
+                        <a href="{{ route('sign-out') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                             Sign Out
                         </a>
                     @endauth

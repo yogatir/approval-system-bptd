@@ -15,10 +15,9 @@
                             <tr>
                                 <th class="px-4 py-2">No</th>
                                 <th class="px-4 py-2">Pemohon</th>
-                                <th class="px-4 py-2">Verifikasi Dokumen</th>
-                                <th class="px-4 py-2">Persetujuan Sewa</th>
-                                <th class="px-4 py-2">E-Billing untuk Pembayaran Sewa</th>
-                                <th class="px-4 py-2">Keterangan</th>
+                                <th class="px-4 py-2">Lokasi</th>
+                                <th class="px-4 py-2">Tanggal</th>
+                                <th class="px-4 py-2">Kode Billing</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,21 +28,15 @@
                                 @foreach ($approvals as $approval)
                                 @php
                                     $docStatus = getStatusClass($approval->doc_approval);
-                                    $rentStatus = getStatusClass($approval->rental_approval);
+                                    $kpnlStatus = getStatusClass($approval->kpnl_approval);
+                                    $centralStatus = getStatusClass($approval->central_approval);
                                 @endphp
                                     <tr>
                                         <td class="border px-4 py-2">{{ $approval->id }}</td>
                                         <td class="border px-4 py-2">{{ $approval->user->name }}</td>
-                                        <td class="border px-4 py-2 {{ $docStatus[1] }}">{{ $docStatus[0] }}</td>
-                                        <td class="border px-4 py-2 {{ $rentStatus[1] }}">{{ $rentStatus[0] }}</td>
-                                        <td class="border px-4 py-2">
-                                            @if ($approval->billings->first()->id > 0)
-                                                <a href="{{ asset('storage/'. $approval->documents->first()->path) }}" class="bg-blue-500 text-white text-md px-3 py-1 rounded hover:bg-blue-600">Download</a>
-                                            @else
-                                            <a href="#" class="bg-gray-500 text-white text-md px-3 py-1 rounded">Download</a>
-                                            @endif
-                                        </td>
-                                        <td class="border px-4 py-2">{{ $approval->description }}</td>
+                                        <td class="border px-4 py-2">{{ $approval->location->name }}</td>
+                                        <td class="border px-4 py-2">{{ $approval->created_at->format('Y-m-d') }}</td>
+                                        <td class="border px-4 py-2">{{ $approval->billings->first()->code }}</td>
                                     </tr>
                                 @endforeach
                             </ul>

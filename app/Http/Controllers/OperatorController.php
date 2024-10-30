@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Approval;
+use App\Models\Document;
 use App\Models\Billing;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,9 @@ class OperatorController extends Controller
 
     public function billingView()
     {
-        $approvals = Approval::with(['user', 'location', 'documents'])->whereHas('user', function ($query) {
+        $approvals = Approval::with(['user', 'location', 'billings'])->whereHas('user', function ($query) {
             $query->where('role', 'APPLICANT');
-        })->where('doc_approval', 2)->where('kpnl_approval', 2)->where('central_approval', 2)->get();
+        })->where('doc_approval', 2)->where('rental_approval', 2)->get();
 
         return view('operator-billing', compact('approvals'));
     }
@@ -37,6 +38,37 @@ class OperatorController extends Controller
         return view('operator-documents', compact('approval', 'documents', 'action'));
     }
 
+    public function updateApproval(Approval $approval, Request $request) 
+    {
+        if (
+            ($approval->doc_approval == 2 && $approval->rental_approval == 2) || 
+            ($approval->doc_approval == 3 || $approval->rental_approval == 3)
+        ) 
+        {
+            return redirect()->back()->with('error', 'Not allowed to update this data.');
+        }
+
+        $rules = [
+            'action' => 'required|in:0,1,2,3',
+            'column_name' => 'required|string'
+        ];
+
+        if ($request->input('action') == 3) {
+            $rules['description'] = 'required|string';
+        }
+
+        $request->validate($rules);
+
+        $approval->update(
+            [
+                $request->input('column_name') => $request->input('action'),
+                'description' => $request->input('description')
+            ]
+        );
+
+        return redirect(route('operator-dashboard'));
+    }
+
     public function addBillingView(Approval $approval)
     {
         return view('add-billing', compact('approval'));
@@ -45,15 +77,35 @@ class OperatorController extends Controller
     public function submitBilling(Request $request)
     {
         $request->validate([
-            'approval_id' => 'required|approval_id',
+            'approval_id' => 'required|integer|exists:approvals,id',
             'code' => 'required|string',
-            'description' => 'required|string'
+            'file_billing' => 'required|file|mimes:pdf|max:512',
+            'description' => 'nullable|string'
         ]);
 
         Billing::create([
             'approval_id' => $request->input('approval_id'),
             'code' => $request->input('code'),
             'description' => $request->input('description')
+        ]);
+
+        $datetime = Carbon::now()->format('YmdHis');
+
+        $approval = Approval::with(['user', 'location', 'billings'])->where('id', $request->input('approval_id'))->first();
+
+        $originalExtension = $request->file('file_billing')->getClientOriginalExtension(); 
+    
+        $fileName = $approval->user->id . '_' . $approval->location->id . '_' . $datetime . '_file_billing.' . $originalExtension;
+        
+        $filePath = $request->file('file_billing')->storeAs('uploads', $fileName, 'public');
+    
+
+        Document::create([
+            'user_id' => $approval->user->id,
+            'approval_id' => $approval->id,
+            'title' => $fileName,
+            'type' => 'DOCUMENT_BILLING',
+            'path' => $filePath
         ]);
 
         return redirect(route('operator-billing'));
@@ -80,24 +132,38 @@ class OperatorController extends Controller
             'instance' => 'nullable|string',
             'gender' => 'required|in:MALE,FEMALE',
             'phone' => 'required|string',
-            'address' => 'nullable|string'
+            'address' => 'nullable|string',
+            'password' => 'required|string',
+            'confirm_password' => 'required|string'
         ]);
+
+        if ($request->input('password') !== $request->input('confirm_password')) {
+            return redirect()->back()->with('error', 'Confirm password is not same.');
+        }
 
         User::updateOrCreate(
             [
-                'phone' => $request->input('phone'),
-                'id_card_no' => $request->input('id_card_no')
+                'email' => $request->input('email'),
+                'role' => 'OPERATOR'
             ],
             [
+                'id_card_no' => $request->input('id_card_no'),
+                'phone' => $request->input('phone'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'instance' => $request->input('instance'),
                 'gender' => $request->input('gender'),
-                'role' => 'OPERATOR',
                 'address' => $request->input('address')
             ]
         );
 
         return redirect(route('operator-list'));
+    }
+
+    public function destroyOperator(User $user) 
+    {
+        $user->delete();
+
+        return redirect()->route('operator-list')->with('success', 'User deleted successfully!');
     }
 }

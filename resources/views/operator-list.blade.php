@@ -34,7 +34,7 @@
                                         <td class="border px-4 py-2">{{ $user->address }}</td>
                                         <td class="border px-4 py-2">
                                             <a href="{{ route('operator-detail', $user->id) }}" class="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600">Edit</a>
-                                            <a href="" class="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                                            <a href="{{ route('delete-operator', $user->id) }}" class="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
