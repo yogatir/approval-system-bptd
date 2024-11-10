@@ -27,7 +27,7 @@
                         </button>
 
                         <div id="dropdownMenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                            <a href="https://drive.google.com/drive/folders/15NYOaNOYWJv-hI6BxWmfVH_cDHawEAKF" class="block px-4 py-2 text-sm hover:bg-gray-100">Regulasi</a>
+                            <a href="{{ route('regulation') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Regulasi</a>
                             <div class="relative group">
                                 <button class="px-4 py-2 text-sm inline-flex w-full hover:bg-gray-100" id="objekSewa">
                                     Objek Sewa

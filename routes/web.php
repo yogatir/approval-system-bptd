@@ -5,6 +5,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\surveyController;
 use App\Http\Middleware\OperatorMiddleware;
 use App\Http\Middleware\ApplicantMiddleware;
 
@@ -98,3 +99,11 @@ Route::post('/submit-add-approval', [
 Route::get('/terminal-mengwi', [
     LocationController::class, 'terminalMengwiView'
 ])->name('terminal-mengwi');
+
+Route::get('/regulation', [
+    ApprovalController::class, 'regulationView'
+])->name('regulation');
+
+Route::get('/survey', [
+    surveyController::class, 'surveyView'
+])->name('survey');
