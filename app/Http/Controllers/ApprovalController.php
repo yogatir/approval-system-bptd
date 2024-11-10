@@ -46,7 +46,7 @@ class ApprovalController extends Controller
 
     public function addApproval(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'id_card_no' => 'required|string',
             'name' => 'required|string',
             'email' => 'required|email',
@@ -63,97 +63,101 @@ class ApprovalController extends Controller
             'file_permit' => 'required|file|mimes:pdf|max:512' 
         ]);
 
-        DB::beginTransaction();
+        session(['approvalFormData' => $validatedData]);
 
-        try {
-            $user = User::where('id_card_no', $request->input('id_card_no'))
-                        ->orWhere('phone', $request->input('phone'))
-                        ->first();
+        return redirect()->route('survey');
 
-            if (!$user) {
-                $user = User::create([
-                    'id_card_no' => $request->input('id_card_no'),
-                    'name' => $request->input('name'),
-                    'email' => $request->input('email'),
-                    'instance' => $request->input('instance'),
-                    'gender' => $request->input('gender'),
-                    'phone' => $request->input('phone'),
-                    'address' => $request->input('address')
-                ]);
+        // DB::beginTransaction();
 
-                Auth::login($user);
-            } else {
-                Auth::login($user);
-            }
+        // try {
+        //     $user = User::where('id_card_no', $request->input('id_card_no'))
+        //                 ->orWhere('phone', $request->input('phone'))
+        //                 ->first();
 
-            $approval = Approval::create([
-                'user_id' => $user->id,
-                'request_type' => $request->input('request_type'),
-                'detail_location' => $request->input('detail_location'),
-                'location_id' => $request->input('location_id')
-            ]);
+        //     if (!$user) {
+        //         $user = User::create([
+        //             'id_card_no' => $request->input('id_card_no'),
+        //             'name' => $request->input('name'),
+        //             'email' => $request->input('email'),
+        //             'instance' => $request->input('instance'),
+        //             'gender' => $request->input('gender'),
+        //             'phone' => $request->input('phone'),
+        //             'address' => $request->input('address')
+        //         ]);
 
-            $fileFields = [
-                'file_id_card',
-                'file_npwp',
-                'file_document_request',
-                'file_agreement',
-                'file_permit'
-            ];
+        //         Auth::login($user);
+        //     } else {
+        //         Auth::login($user);
+        //     }
+
+        //     $approval = Approval::create([
+        //         'user_id' => $user->id,
+        //         'request_type' => $request->input('request_type'),
+        //         'detail_location' => $request->input('detail_location'),
+        //         'location_id' => $request->input('location_id')
+        //     ]);
+
+        //     $fileFields = [
+        //         'file_id_card',
+        //         'file_npwp',
+        //         'file_document_request',
+        //         'file_agreement',
+        //         'file_permit'
+        //     ];
         
-            $datetime = Carbon::now()->format('YmdHis');
+        //     $datetime = Carbon::now()->format('YmdHis');
 
-            foreach ($fileFields as $fileField) {
-                if ($request->hasFile($fileField)) {
-                    $fileType = '';
-                    switch ($fileField) {
-                        case 'file_npwp':
-                            $fileType = 'DOCUMENT_NPWP';
-                            break;
-                        case 'file_document_request':
-                            $fileType = 'DOCUMENT_REQUEST';
-                            break;
-                        case 'file_agreement':
-                            $fileType = 'DOCUMENT_AGREEMMENT';
-                            break;
-                        case 'file_permit':
-                            $fileType = 'DOCUMENT_PERMIT';
-                            break;
-                        default:
-                            $fileType = 'DOCUMENT_ID_CARD';
-                            break;
-                    }
+        //     foreach ($fileFields as $fileField) {
+        //         if ($request->hasFile($fileField)) {
+        //             $fileType = '';
+        //             switch ($fileField) {
+        //                 case 'file_npwp':
+        //                     $fileType = 'DOCUMENT_NPWP';
+        //                     break;
+        //                 case 'file_document_request':
+        //                     $fileType = 'DOCUMENT_REQUEST';
+        //                     break;
+        //                 case 'file_agreement':
+        //                     $fileType = 'DOCUMENT_AGREEMMENT';
+        //                     break;
+        //                 case 'file_permit':
+        //                     $fileType = 'DOCUMENT_PERMIT';
+        //                     break;
+        //                 default:
+        //                     $fileType = 'DOCUMENT_ID_CARD';
+        //                     break;
+        //             }
 
-                    $originalExtension = $request->file($fileField)->getClientOriginalExtension();
-                    $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
+        //             $originalExtension = $request->file($fileField)->getClientOriginalExtension();
+        //             $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
                     
-                    $filePath = $request->file($fileField)->storeAs('uploads', $fileName, 'public');
+        //             $filePath = $request->file($fileField)->storeAs('uploads', $fileName, 'public');
 
-                    Document::create([
-                        'user_id' => $user->id,
-                        'approval_id' => $approval->id,
-                        'title' => $fileName,
-                        'type' => $fileType,
-                        'path' => $filePath
-                    ]);
-                }
-            }
+        //             Document::create([
+        //                 'user_id' => $user->id,
+        //                 'approval_id' => $approval->id,
+        //                 'title' => $fileName,
+        //                 'type' => $fileType,
+        //                 'path' => $filePath
+        //             ]);
+        //         }
+        //     }
 
-            DB::commit();
+        //     DB::commit();
 
-            return redirect('/approval-list')->with('success', 'Anda berhasil daftar!');
-        } catch (\Exception $e) {
-            DB::rollback();
+        //     return redirect('/approval-list')->with('success', 'Anda berhasil daftar!');
+        // } catch (\Exception $e) {
+        //     DB::rollback();
 
-            foreach ($fileFields as $fileField) {
-                if ($request->hasFile($fileField)) {
-                    $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField;
-                    Storage::disk('public')->delete('uploads/' . $fileName);
-                }
-            }
+        //     foreach ($fileFields as $fileField) {
+        //         if ($request->hasFile($fileField)) {
+        //             $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField;
+        //             Storage::disk('public')->delete('uploads/' . $fileName);
+        //         }
+        //     }
 
-            return redirect()->back()->with('error', 'Gagal melakukan pendaftaran. Silakan coba lagi.');
-        }
+        //     return redirect()->back()->with('error', 'Gagal melakukan pendaftaran. Silakan coba lagi.');
+        // }
     }
 
     public function approvalView()
