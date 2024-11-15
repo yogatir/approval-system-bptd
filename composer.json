@@ -24,7 +24,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/approvalDesignHelper.php"
+            "app/Helpers/approvalDesignHelper.php",
+            "app/Helpers/surveyDesignHelper.php"
         ]
     },
     "autoload-dev": {

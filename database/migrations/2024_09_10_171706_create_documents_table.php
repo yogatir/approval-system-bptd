@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('approval_id');
-            $table->enum('type', ['DOCUMENT_ID_CARD', 'DOCUMENT_NPWP', 'DOCUMENT_REQUEST', 'DOCUMENT_AGREEMMENT', 'DOCUMENT_PERMIT', 'DOCUMENT_BILLING'])->default('DOCUMENT_ID_CARD');
+            $table->enum('type', ['DOCUMENT_ID_CARD', 'DOCUMENT_NPWP', 'DOCUMENT_REQUEST', 'DOCUMENT_AGREEMENT', 'DOCUMENT_PERMIT', 'DOCUMENT_BILLING'])->default('DOCUMENT_ID_CARD');
             $table->string('title');
             $table->string('path');
             $table->timestamps();

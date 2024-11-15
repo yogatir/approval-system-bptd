@@ -107,3 +107,7 @@ Route::get('/regulation', [
 Route::get('/survey', [
     surveyController::class, 'surveyView'
 ])->name('survey');
+
+Route::post('/survey-submit', [
+    surveyController::class, 'surveySubmit'
+])->name('survey-submit');

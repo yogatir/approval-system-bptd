@@ -41,7 +41,7 @@
                         </div>
                     @endif
 
-                    <form if="approvalForm" action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
+                    <form id="approvalForm" action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         @php $isRegistered = isset($user); @endphp

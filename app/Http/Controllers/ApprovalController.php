@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\Approval;
+use Illuminate\Support\Str;
 use App\Models\Document;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class ApprovalController extends Controller
 
     public function addApproval(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'id_card_no' => 'required|string',
             'name' => 'required|string',
             'email' => 'required|email',
@@ -55,109 +56,49 @@ class ApprovalController extends Controller
             'address' => 'nullable|string',
             'detail_location' => 'required|string',
             'request_type' => 'required|string',
-            'location_id' => 'required|exists:locations,id',
             'file_id_card' => 'required|file|mimes:pdf|max:512',
             'file_npwp' => 'required|file|mimes:pdf|max:512',
             'file_document_request' => 'required|file|mimes:pdf|max:512',
             'file_agreement' => 'required|file|mimes:pdf|max:512',
-            'file_permit' => 'required|file|mimes:pdf|max:512' 
+            'file_permit' => 'required|file|mimes:pdf|max:512',
         ]);
-
-        session(['approvalFormData' => $validatedData]);
-
-        return redirect()->route('survey');
-
-        // DB::beginTransaction();
-
-        // try {
-        //     $user = User::where('id_card_no', $request->input('id_card_no'))
-        //                 ->orWhere('phone', $request->input('phone'))
-        //                 ->first();
-
-        //     if (!$user) {
-        //         $user = User::create([
-        //             'id_card_no' => $request->input('id_card_no'),
-        //             'name' => $request->input('name'),
-        //             'email' => $request->input('email'),
-        //             'instance' => $request->input('instance'),
-        //             'gender' => $request->input('gender'),
-        //             'phone' => $request->input('phone'),
-        //             'address' => $request->input('address')
-        //         ]);
-
-        //         Auth::login($user);
-        //     } else {
-        //         Auth::login($user);
-        //     }
-
-        //     $approval = Approval::create([
-        //         'user_id' => $user->id,
-        //         'request_type' => $request->input('request_type'),
-        //         'detail_location' => $request->input('detail_location'),
-        //         'location_id' => $request->input('location_id')
-        //     ]);
-
-        //     $fileFields = [
-        //         'file_id_card',
-        //         'file_npwp',
-        //         'file_document_request',
-        //         'file_agreement',
-        //         'file_permit'
-        //     ];
-        
-        //     $datetime = Carbon::now()->format('YmdHis');
-
-        //     foreach ($fileFields as $fileField) {
-        //         if ($request->hasFile($fileField)) {
-        //             $fileType = '';
-        //             switch ($fileField) {
-        //                 case 'file_npwp':
-        //                     $fileType = 'DOCUMENT_NPWP';
-        //                     break;
-        //                 case 'file_document_request':
-        //                     $fileType = 'DOCUMENT_REQUEST';
-        //                     break;
-        //                 case 'file_agreement':
-        //                     $fileType = 'DOCUMENT_AGREEMMENT';
-        //                     break;
-        //                 case 'file_permit':
-        //                     $fileType = 'DOCUMENT_PERMIT';
-        //                     break;
-        //                 default:
-        //                     $fileType = 'DOCUMENT_ID_CARD';
-        //                     break;
-        //             }
-
-        //             $originalExtension = $request->file($fileField)->getClientOriginalExtension();
-        //             $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
-                    
-        //             $filePath = $request->file($fileField)->storeAs('uploads', $fileName, 'public');
-
-        //             Document::create([
-        //                 'user_id' => $user->id,
-        //                 'approval_id' => $approval->id,
-        //                 'title' => $fileName,
-        //                 'type' => $fileType,
-        //                 'path' => $filePath
-        //             ]);
-        //         }
-        //     }
-
-        //     DB::commit();
-
-        //     return redirect('/approval-list')->with('success', 'Anda berhasil daftar!');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-
-        //     foreach ($fileFields as $fileField) {
-        //         if ($request->hasFile($fileField)) {
-        //             $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField;
-        //             Storage::disk('public')->delete('uploads/' . $fileName);
-        //         }
-        //     }
-
-        //     return redirect()->back()->with('error', 'Gagal melakukan pendaftaran. Silakan coba lagi.');
-        // }
+    
+        $datetime = now()->format('Ymd_His');
+        $locationId = $request->input('location_id');
+        $uuid = (string) Str::uuid();
+    
+        $fileFields = [
+            'file_id_card' => 'DOCUMENT_ID_CARD',
+            'file_npwp' => 'DOCUMENT_NPWP',
+            'file_document_request' => 'DOCUMENT_REQUEST',
+            'file_agreement' => 'DOCUMENT_AGREEMENT',
+            'file_permit' => 'DOCUMENT_PERMIT',
+        ];
+    
+        $filePaths = [];
+    
+        foreach ($fileFields as $fileField => $fileType) {
+            if ($request->hasFile($fileField)) {
+                $originalExtension = $request->file($fileField)->getClientOriginalExtension();
+                $fileName = $uuid . '_' . $locationId . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
+    
+                $filePath = $request->file($fileField)->storeAs('temps', $fileName, 'public');
+    
+                $filePaths[$fileField] = [
+                    'path' => $filePath,
+                    'type' => $fileType
+                ];
+            }
+        }
+    
+        session([
+            'approvalFiles' => $filePaths,
+            'approvalData' => $request->only([
+                'id_card_no', 'name', 'email', 'gender', 'phone', 'address', 'detail_location', 'request_type', 'location_id'
+            ])
+        ]);
+    
+        return redirect('/survey');
     }
 
     public function approvalView()

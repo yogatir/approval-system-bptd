@@ -12,7 +12,7 @@ class SurveySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('survey_questionaires')->insert([
+        DB::table('survey_questionnaires')->insert([
             ['survey_text' => 'Prosedur permintaan layanan diinformasikan dengan jelas dan mudah diterapkan', 'created_at' => now(), 'updated_at' => now()],
             ['survey_text' => 'Kecepatan merespon permintaan layanan yang diajukan', 'created_at' => now(), 'updated_at' => now()],
             ['survey_text' => 'Pemberian layanan tidak dipungut biaya atas pelayanan yang diberikan', 'created_at' => now(), 'updated_at' => now()],
