@@ -2,57 +2,62 @@
 
 @section('content')
     <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-
-                    <p class="hidden bg-green-300"></p>
-                    <p class="hidden bg-orange-300"></p>
-                    <p class="hidden bg-red-300"></p>
-                    <p class="hidden bg-gray-300"></p>
-
-                    @if ($approvals->isEmpty())
-                        <p>Data Approval Tidak Ada</p>
-                    @else
-                        <table id="userTable" class="min-w-full bg-white">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2">No</th>
-                                    <th class="px-4 py-2 w-1/4">Pemohon</th>
-                                    <th class="px-4 py-2">Verifikasi Dokumen</th>
-                                    <th class="px-4 py-2">Persetujuan Sewa</th>
-                                    <th class="px-4 py-2">E-Billing</th>
-                                    <th class="px-4 py-2">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($approvals as $approval)
-                                @php
-                                    $docStatus = getStatusClass($approval->doc_approval);
-                                    $rentStatus = getStatusClass($approval->rental_approval);
-                                @endphp
-                                    <tr>
-                                        <td class="border px-4 py-2">{{ $approval->id }}</td>
-                                        <td class="border px-4 py-2">{{ $approval->user->name }}</td>
-                                        <td class="border px-4 py-2">
-                                            <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'doc_approval']) }}" class="{{ $docStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">
-                                                Lihat Dokumen
-                                            </a>
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'rental_approval']) }}" class="{{ $rentStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">
-                                                Lihat Dokumen
-                                            </a>
-                                        </td>
-                                        <td class="border px-4 py-2"></td>
-                                        <td class="border px-4 py-2">{{ $approval->description }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-            </div>
+      <div class="container mx-auto px-4 py-8 bg-white shadow-sm px-10">
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-semibold text-gray-700">
+            Survei Kepuasan Pelayanan Pelanggan
+          </h1>
         </div>
+
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div class="bg-green-100 text-center p-6 rounded-lg shadow">
+            <p class="text-4xl font-bold text-green-600">7</p>
+            <p class="text-lg font-medium text-gray-700">SANGAT PUAS</p>
+            <!-- <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg">Pilih</button> -->
+          </div>
+          <div class="bg-blue-100 text-center p-6 rounded-lg shadow">
+            <p class="text-4xl font-bold text-blue-600">13</p>
+            <p class="text-lg font-medium text-gray-700">PUAS</p>
+            <!-- <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Pilih</button> -->
+          </div>
+          <div class="bg-yellow-100 text-center p-6 rounded-lg shadow">
+            <p class="text-4xl font-bold text-yellow-600">5</p>
+            <p class="text-lg font-medium text-gray-700">KURANG PUAS</p>
+            <!-- <button class="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg">Pilih</button> -->
+          </div>
+          <div class="bg-red-100 text-center p-6 rounded-lg shadow">
+            <p class="text-4xl font-bold text-red-600">1</p>
+            <p class="text-lg font-medium text-gray-700">TIDAK PUAS</p>
+            <!-- <button class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg">Pilih</button> -->
+          </div>
+        </div>
+
+        <div>
+          <div class="mb-4">
+            <p class="text-gray-700 font-medium">Sangat Puas</p>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+              <div class="bg-green-500 h-4 rounded-full" style="width: 26.92%;"></div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <p class="text-gray-700 font-medium">Puas</p>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+              <div class="bg-blue-500 h-4 rounded-full" style="width: 50%;"></div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <p class="text-gray-700 font-medium">Kurang Puas</p>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+              <div class="bg-yellow-500 h-4 rounded-full" style="width: 19.23%;"></div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <p class="text-gray-700 font-medium">Tidak Puas</p>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+              <div class="bg-red-500 h-4 rounded-full" style="width: 3.85%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 @endsection

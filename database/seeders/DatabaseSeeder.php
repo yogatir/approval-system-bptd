@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocationSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(SurveySeeder::class);
+        $this->call(FloorSeeder::class);
     }
 }

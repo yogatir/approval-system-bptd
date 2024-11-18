@@ -61,6 +61,26 @@ Route::middleware([OperatorMiddleware::class])->group(function () {
     Route::get('/operator-dashboard', [
         OperatorController::class, 'dashboardView'
     ])->name('operator-dashboard');
+
+    Route::get('/operator-request', [
+        OperatorController::class, 'requestView'
+    ])->name('operator-request');
+
+    Route::get('/operator-survey', [
+        OperatorController::class, 'surveyView'
+    ])->name('operator-survey');
+
+    Route::get('/operator-floor', [
+        OperatorController::class, 'floorView'
+    ])->name('operator-floor');
+
+    Route::post('/operator-floor-update', [
+        OperatorController::class, 'floorUpdateView'
+    ])->name('operator-floor-update');
+
+    Route::get('/operator-survey-detail/{user}', [
+        OperatorController::class, 'surveyDetailView'
+    ])->name('operator-survey-detail');
 });
 Route::get('/operator', [
     VerificationController::class, 'operatorView'
