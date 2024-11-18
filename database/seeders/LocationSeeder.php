@@ -14,11 +14,11 @@ class LocationSeeder extends Seeder
     public function run(): void
     {
         DB::table('locations')->insert([
-            ['name' => 'TERMINAL MENGWI', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'PELABUHAN PADANGBAI', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'PELABUHAN SAMPALAN', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'PELABUHAN BIAS MUNJUL', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'PELABUHAN GILIMANUK', 'created_at' => now(), 'updated_at' => now()]
+            ['id' => 1, 'name' => 'TERMINAL MENGWI', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'name' => 'PELABUHAN PADANGBAI', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'name' => 'PELABUHAN SAMPALAN', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'name' => 'PELABUHAN BIAS MUNJUL', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'name' => 'PELABUHAN GILIMANUK', 'created_at' => now(), 'updated_at' => now()]
         ]);
     }
 }

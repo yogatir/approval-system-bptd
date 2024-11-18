@@ -7,23 +7,62 @@
     <title>Home Page</title>
     @vite('resources/css/app.css')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+        .toggle-checkbox {
+            appearance: none;
+            width: 40px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s;
+        }
+        .toggle-checkbox:checked {
+            background: #4CAF50;
+        }
+        .toggle-checkbox:checked::before {
+            left: 20px;
+        }
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+            transition: left 0.3s;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
 
-    <!-- Navbar -->
+<body class="bg-gray-100">
     <nav class="bg-white shadow">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-24">
-                <!-- Left Logo -->
                 <div class="flex items-center">
                     <img src="{{ asset('storage/app/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
-                    <!-- Optional Text next to Logo -->
                 </div>
 
                 <div class="hidden md:flex space-x-6 items-center">
 
                     <a href="{{ route('operator-dashboard') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Dashboard
+                    </a>
+
+                    <a href="{{ route('operator-survey') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        Hasil Survey
+                    </a>
+
+                    <a href="{{ route('operator-floor') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        Denah
+                    </a>
+
+                    <a href="{{ route('operator-request') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        Permohonan
                     </a>
 
                     <a href="{{ route('operator-billing') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
@@ -41,10 +80,8 @@
                     @endauth
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button id="navToggle" class="text-gray-700 hover:text-gray-900 focus:outline-none">
-                        <!-- Hamburger Icon -->
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
@@ -58,9 +95,7 @@
         @yield('content')
     </main>
 
-    <!-- Modal Background -->
     <div id="ktpModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden z-50">
-        <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg p-6 w-96">
             <h2 class="text-xl font-semibold mb-4">Login</h2>
             <form id="ktpForm" method="POST" action="{{ route('submit-id-card-no') }}">
@@ -81,8 +116,6 @@
         </div>
     </div>
 
-
-    <!-- Scripts -->
      @vite('resources/js/app.js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -93,23 +126,20 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const openModalButtons = document.getElementsByClassName('openModal'); // Note the plural
+            const openModalButtons = document.getElementsByClassName('openModal');
             const modal = document.getElementById('ktpModal');
             const closeModalButton = document.getElementById('closeModal');
 
-            // Add click event listeners to all buttons with the class 'openModal'
             Array.from(openModalButtons).forEach(button => {
                 button.addEventListener('click', function() {
                     modal.classList.remove('hidden');
                 });
             });
 
-            // Close the modal
             closeModalButton.addEventListener('click', function() {
                 modal.classList.add('hidden');
             });
 
-            // Optional: Close modal on outside click
             modal.addEventListener('click', function(event) {
                 if (event.target === modal) {
                     modal.classList.add('hidden');
@@ -117,5 +147,6 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>

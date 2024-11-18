@@ -41,7 +41,7 @@
                         </div>
                     @endif
 
-                    <form if="approvalForm" action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
+                    <form id="approvalForm" action="{{ route('submit-add-approval') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         @php $isRegistered = isset($user); @endphp
@@ -135,7 +135,7 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="file_agreement" class="block text-sm font-medium text-gray-700">Surat Pernyataan Kesediaan Menjaga Objek Wisata</label>
+                                <label for="file_agreement" class="block text-sm font-medium text-gray-700">Surat Pernyataan Kesediaan Menjaga Objek Sewa</label>
                                 <input type="file" name="file_agreement" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"accept=".pdf">
                                 @error('file')
                                     <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
@@ -193,6 +193,10 @@
             </div>
         </div>
     </div>
+
+    <footer class="bottom-0 w-full absolute bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 PNBP BPTD Kelas II Bali</p>
+    </footer>
 
     <script>
         function openConfirmationModal() {

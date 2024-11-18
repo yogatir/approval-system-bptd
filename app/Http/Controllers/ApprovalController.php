@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\Approval;
+use Illuminate\Support\Str;
 use App\Models\Document;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ApprovalController extends Controller
 {
@@ -53,89 +56,86 @@ class ApprovalController extends Controller
             'address' => 'nullable|string',
             'detail_location' => 'required|string',
             'request_type' => 'required|string',
-            'location_id' => 'required|exists:locations,id',
             'file_id_card' => 'required|file|mimes:pdf|max:512',
             'file_npwp' => 'required|file|mimes:pdf|max:512',
             'file_document_request' => 'required|file|mimes:pdf|max:512',
             'file_agreement' => 'required|file|mimes:pdf|max:512',
-            'file_permit' => 'required|file|mimes:pdf|max:512' 
-        ]);
-
-        $user = User::where('id_card_no', $request->input('id_card_no'))
-                ->orWhere('phone', $request->input('phone'))
-                ->first();
-
-        if (!$user) {
-            $user = User::create([
-                'id_card_no' => $request->input('id_card_no'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'instance' => $request->input('instance'),
-                'gender' => $request->input('gender'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address')
-            ]);
-
-            Auth::login($user);
-        } else {
-            Auth::login($user);
-        }
-
-        $approval = Approval::create([
-            'user_id' => $user->id,
-            'request_type' => $request->input('request_type'),
-            'detail_location' => $request->input('detail_location'),
-            'location_id' => $request->input('location_id')
-        ]);
+            'file_permit' => 'required|file|mimes:pdf|max:512',
+        ], [
+            'id_card_no.required' => 'Nomor KTP wajib diisi.',
+            'id_card_no.string' => 'Nomor KTP harus berupa string.',
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa string.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email harus valid.',
+            'gender.required' => 'Jenis kelamin wajib diisi.',
+            'gender.in' => 'Jenis kelamin harus salah satu dari Laki-laki atau Perempuan.',
+            'phone.required' => 'Nomor telepon wajib diisi.',
+            'phone.string' => 'Nomor telepon harus berupa string.',
+            'address.nullable' => 'Alamat boleh kosong.',
+            'address.string' => 'Alamat harus berupa string.',
+            'detail_location.required' => 'Lokasi detail wajib diisi.',
+            'detail_location.string' => 'Lokasi detail harus berupa string.',
+            'request_type.required' => 'Tipe permohonan wajib diisi.',
+            'request_type.string' => 'Tipe permohonan harus berupa string.',
+            'file_id_card.required' => 'File KTP wajib diunggah.',
+            'file_id_card.file' => 'File KTP harus berupa file.',
+            'file_id_card.mimes' => 'File KTP harus berformat PDF.',
+            'file_id_card.max' => 'File KTP tidak boleh lebih dari 512 KB.',
+            'file_npwp.required' => 'File NPWP wajib diunggah.',
+            'file_npwp.file' => 'File NPWP harus berupa file.',
+            'file_npwp.mimes' => 'File NPWP harus berformat PDF.',
+            'file_npwp.max' => 'File NPWP tidak boleh lebih dari 512 KB.',
+            'file_document_request.required' => 'File Surat Permohonan wajib diunggah.',
+            'file_document_request.file' => 'File Surat Permohonan harus berupa file.',
+            'file_document_request.mimes' => 'File Surat Permohonan harus berformat PDF.',
+            'file_document_request.max' => 'File Surat Permohonan tidak boleh lebih dari 512 KB.',
+            'file_agreement.required' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata wajib diunggah.',
+            'file_agreement.file' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata harus berupa file.',
+            'file_agreement.mimes' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata harus berformat PDF.',
+            'file_agreement.max' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata tidak boleh lebih dari 512 KB.',
+            'file_permit.required' => 'File Surat Ijin Usaha wajib diunggah.',
+            'file_permit.file' => 'File Surat Ijin Usaha harus berupa file.',
+            'file_permit.mimes' => 'File Surat Ijin Usaha harus berformat PDF.',
+            'file_permit.max' => 'File Surat Ijin Usaha tidak boleh lebih dari 512 KB.',
+        ]);        
+    
+        $datetime = now()->format('Ymd_His');
+        $locationId = $request->input('location_id');
+        $uuid = (string) Str::uuid();
     
         $fileFields = [
-            'file_id_card',
-            'file_npwp',
-            'file_document_request',
-            'file_agreement',
-            'file_permit'
+            'file_id_card' => 'DOCUMENT_ID_CARD',
+            'file_npwp' => 'DOCUMENT_NPWP',
+            'file_document_request' => 'DOCUMENT_REQUEST',
+            'file_agreement' => 'DOCUMENT_AGREEMENT',
+            'file_permit' => 'DOCUMENT_PERMIT',
         ];
     
-        $datetime = Carbon::now()->format('YmdHis');
+        $filePaths = [];
     
-        foreach ($fileFields as $fileField) {
+        foreach ($fileFields as $fileField => $fileType) {
             if ($request->hasFile($fileField)) {
-                $fileType = '';
-                switch ($fileField) {
-                    case 'file_npwp':
-                        $fileType = 'DOCUMENT_NPWP';
-                        break;
-                    case 'file_document_request':
-                        $fileType = 'DOCUMENT_REQUEST';
-                        break;
-                    case 'file_agreement':
-                        $fileType = 'DOCUMENT_AGREEMMENT';
-                        break;
-                    case 'file_permit':
-                        $fileType = 'DOCUMENT_PERMIT';
-                        break;
-                    default:
-                        $fileType = 'DOCUMENT_ID_CARD';
-                        break;
-                }
-                
-                $originalExtension = $request->file($fileField)->getClientOriginalExtension(); 
+                $originalExtension = $request->file($fileField)->getClientOriginalExtension();
+                $fileName = $uuid . '_' . $locationId . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
     
-                $fileName = $user->id . '_' . $request->input('location_id') . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
-                
-                $filePath = $request->file($fileField)->storeAs('uploads', $fileName, 'public');
+                $filePath = $request->file($fileField)->storeAs('temps', $fileName, 'public');
     
-                Document::create([
-                    'user_id' => $user->id,
-                    'approval_id' => $approval->id,
-                    'title' => $fileName,
-                    'type' => $fileType,
-                    'path' => $filePath
-                ]);
+                $filePaths[$fileField] = [
+                    'path' => $filePath,
+                    'type' => $fileType
+                ];
             }
         }
-
-        return redirect('/approval-list')->with('success', 'Anda berhasil daftar!');
+    
+        session([
+            'approvalFiles' => $filePaths,
+            'approvalData' => $request->only([
+                'id_card_no', 'name', 'email', 'gender', 'phone', 'address', 'detail_location', 'request_type', 'location_id'
+            ])
+        ]);
+    
+        return redirect('/survey');
     }
 
     public function approvalView()
@@ -153,5 +153,10 @@ class ApprovalController extends Controller
             3 => ['Ditolak', 'bg-red-200 text-red-700'],
             default => ['Unknown', 'bg-gray-200 text-gray-700'],
         };
+    }
+
+    public function regulationView()
+    {
+        return view('regulation');
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Floor;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Approval;
 use App\Models\Document;
 use App\Models\Billing;
+use App\Models\SurveyAnswer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +22,48 @@ class OperatorController extends Controller
         })->get();
 
         return view('operator-dashboard', compact('approvals'));
+    }
+
+    public function requestView()
+    {
+        $approvals = Approval::with(['user', 'location', 'documents'])->whereHas('user', function ($query) {
+            $query->where('role', 'APPLICANT');
+        })->get();
+
+        return view('operator-request', compact('approvals'));
+    }
+
+    public function surveyView()
+    {
+        $users = User::with(['surveyAnswers'])->where('role', 'APPLICANT')->get();
+
+        return view('operator-survey', compact('users'));
+    }
+
+    public function floorView()
+    {
+        $floors = Floor::get();
+        $users = User::where('role', 'APPLICANT')->get();
+
+        return view('operator-floor', compact('floors', 'users'));
+    }
+
+    public function floorUpdateView(Request $request)
+    {
+        // dd($request->input('is_used'));
+        $floor = Floor::findOrFail($request->id);
+        $floor->user_id = $request->user_id ? $request->user_id : null;
+        $floor->is_used = $request->is_used;
+        $floor->save();
+
+        return redirect()->route('operator-floor');
+    }
+
+    public function surveyDetailView(User $user)
+    {
+        $surveys = $user->surveyAnswers;
+
+        return view('operator-survey-detail', compact('surveys'));
     }
 
     public function billingView()
@@ -66,7 +110,7 @@ class OperatorController extends Controller
             ]
         );
 
-        return redirect(route('operator-dashboard'));
+        return redirect(route('operator-request'));
     }
 
     public function addBillingView(Approval $approval)

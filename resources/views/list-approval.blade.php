@@ -37,10 +37,10 @@
                                         <td class="border px-4 py-2 {{ $docStatus[1] }}">{{ $docStatus[0] }}</td>
                                         <td class="border px-4 py-2 {{ $rentStatus[1] }}">{{ $rentStatus[0] }}</td>
                                         <td class="border px-4 py-2">
-                                            @if ($approval->billings->first()->id > 0)
-                                                <a href="{{ asset('storage/'. $approval->documents->first()->path) }}" class="bg-blue-500 text-white text-md px-3 py-1 rounded hover:bg-blue-600">Download</a>
+                                            @if ($approval->billings->first())
+                                                <a href="{{ asset('storage/'. $approval->documents->first()->path) }}" class="bg-blue-500 text-white text-md px-3 py-1 rounded hover:bg-blue-600">Unduh</a>
                                             @else
-                                            <a href="#" class="bg-gray-500 text-white text-md px-3 py-1 rounded">Download</a>
+                                                <!-- <a href="#" class="bg-gray-500 text-white text-md px-3 py-1 rounded">Proses</a> -->
                                             @endif
                                         </td>
                                         <td class="border px-4 py-2">{{ $approval->description }}</td>
@@ -54,4 +54,8 @@
             </div>
         </div>
     </div>
+
+    <footer class="bottom-0 w-full relative bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 PNBP BPTD Kelas II Bali</p>
+    </footer>
 @endsection

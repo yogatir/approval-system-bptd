@@ -49,8 +49,8 @@
                                         @case('DOCUMENT_REQUEST')
                                             Surat Permohonan Sewa
                                             @break
-                                        @case('DOCUMENT_AGREEMMENT')
-                                            Surat Pernyataan Kesediaan Menjaga Objek Wisata
+                                        @case('DOCUMENT_AGREEMENT')
+                                            Surat Pernyataan Kesediaan Menjaga Objek Sewa
                                             @break
                                         @case('DOCUMENT_PERMIT')
                                             Scan / Fotokopi Surat Ijin Usaha

@@ -5,6 +5,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\surveyController;
 use App\Http\Middleware\OperatorMiddleware;
 use App\Http\Middleware\ApplicantMiddleware;
 
@@ -60,6 +61,26 @@ Route::middleware([OperatorMiddleware::class])->group(function () {
     Route::get('/operator-dashboard', [
         OperatorController::class, 'dashboardView'
     ])->name('operator-dashboard');
+
+    Route::get('/operator-request', [
+        OperatorController::class, 'requestView'
+    ])->name('operator-request');
+
+    Route::get('/operator-survey', [
+        OperatorController::class, 'surveyView'
+    ])->name('operator-survey');
+
+    Route::get('/operator-floor', [
+        OperatorController::class, 'floorView'
+    ])->name('operator-floor');
+
+    Route::post('/operator-floor-update', [
+        OperatorController::class, 'floorUpdateView'
+    ])->name('operator-floor-update');
+
+    Route::get('/operator-survey-detail/{user}', [
+        OperatorController::class, 'surveyDetailView'
+    ])->name('operator-survey-detail');
 });
 Route::get('/operator', [
     VerificationController::class, 'operatorView'
@@ -98,3 +119,15 @@ Route::post('/submit-add-approval', [
 Route::get('/terminal-mengwi', [
     LocationController::class, 'terminalMengwiView'
 ])->name('terminal-mengwi');
+
+Route::get('/regulation', [
+    ApprovalController::class, 'regulationView'
+])->name('regulation');
+
+Route::get('/survey', [
+    surveyController::class, 'surveyView'
+])->name('survey');
+
+Route::post('/survey-submit', [
+    surveyController::class, 'surveySubmit'
+])->name('survey-submit');
