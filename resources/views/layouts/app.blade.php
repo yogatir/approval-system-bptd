@@ -101,7 +101,7 @@
                         </a>
                     @endauth
 
-                    <a href="#" class="customer-service hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                    <a href="https://wa.me/6281330889375" class="customer-service hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Customer Service
                     </a>
 
