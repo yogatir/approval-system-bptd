@@ -5,7 +5,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\surveyController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Middleware\OperatorMiddleware;
 use App\Http\Middleware\ApplicantMiddleware;
 
@@ -125,9 +125,9 @@ Route::get('/regulation', [
 ])->name('regulation');
 
 Route::get('/survey', [
-    surveyController::class, 'surveyView'
+    SurveyController::class, 'surveyView'
 ])->name('survey');
 
 Route::post('/survey-submit', [
-    surveyController::class, 'surveySubmit'
+    SurveyController::class, 'surveySubmit'
 ])->name('survey-submit');
