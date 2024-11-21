@@ -7,6 +7,32 @@
             <h1 class="text-3xl font-bold">Terminal Mengwi</h1>
             <p class="text-gray-500">BPTD Kelas II Bali</p>
         </div>
+        
+        <div class="mb-8">
+            <div class="text-center mb-4">
+                <h1 class="text-2xl font-semibold text-gray-700">
+                    Detail Denah
+                </h1>
+            </div>
+
+            <div class="p-6 bg-white border-b border-gray-200">
+                @if ($floors->isEmpty())
+                    <p class="text-gray-600">Denah Tidak Ada</p>
+                @else
+                    <table class="min-w-full border-collapse border border-gray-300">
+                        <tbody>
+                            <tr>
+                                @foreach ($floors as $floor)
+                                    <td class="border px-4 py-2 text-center {{ $floor->is_used === 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                                        {{ $floor->detail_location }}
+                                    </td>
+                                @endforeach
+                            </tr>
+                        </tbody>
+                    </table>
+                @endif
+            </div>
+        </div>
 
         <!-- Navigation Tabs -->
         <div class="flex justify-center mb-8">
@@ -19,18 +45,6 @@
             <button data-target="loket-space" class="filter-btn ml-4 px-4 py-2 text-gray-700 font-medium text-sm hover:bg-gray-200 rounded-full focus:outline-none">LOKET SPACE</button>
             <button data-target="lahan-kosong" class="filter-btn ml-4 px-4 py-2 text-gray-700 font-medium text-sm hover:bg-gray-200 rounded-full focus:outline-none">LAHAN KOSONG</button>
         </div>
-        
-        <!-- <div id="description-section" class="mb-8">
-            <div id="akdp-description" class="description">
-                <h2 class="text-2xl font-semibold mb-4">AKDP</h2>
-                <p class="text-sm text-gray-700 mb-4">cocok bagi para calon mitra untuk dijadikan Kantor ( Unit Kerja )</p>
-                <ul class="list-disc pl-5 text-sm text-gray-700">
-                    <li>Ukuran : 3,5 m x 5 m</li>
-                    <li>Fasilitas : Listrik, Ruangan Ber- AC</li>
-                </ul>
-                <p class="mt-4 text-lg font-bold text-gray-900">Nilai Sewa : Rp. 8.250.000 / Tahun</p>
-            </div>
-        </div> -->
 
         <div id="akdp" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">

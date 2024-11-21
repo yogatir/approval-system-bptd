@@ -19,82 +19,75 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-gray-200 p-6 rounded-lg shadow-lg text-center">
                 <h3 class="text-xl font-medium text-gray-700 mb-2">Total Pengguna</h3>
-                <p class="text-3xl font-bold text-blue-600">391</p>
+                <p class="text-3xl font-bold text-blue-600">{{ $totalVisits }}</p>
             </div>
 
             <div class="bg-gray-200 p-6 rounded-lg shadow-lg text-center">
                 <h3 class="text-xl font-medium text-gray-700 mb-2">Pengguna Bulan Ini</h3>
-                <p class="text-3xl font-bold text-green-600">12</p>
+                <p class="text-3xl font-bold text-green-600">{{ $thisMonthVisits }}</p>
             </div>
         </div>
     </div>
 
     <div class="bg-gray-200 py-[120px]">
-        <div class="container mx-auto px-4 py-8 bg-white shadow-sm px-10">
-            <div class="text-center mb-8">
+      <div class="container mx-auto px-4 py-8 bg-white shadow-sm px-10">
+          <div class="text-center mb-8">
               <h1 class="text-2xl font-semibold text-gray-700">
-                Survei Kepuasan Pelayanan Pelanggan
+                  Survei Kepuasan Pelayanan Pelanggan
               </h1>
-            </div>
-    
-            <div class="grid grid-cols-4 gap-4 mb-8">
-              <div class="bg-green-100 text-center p-6 rounded-lg shadow">
-                <p class="text-4xl font-bold text-green-600">7</p>
-                <p class="text-lg font-medium text-gray-700">SANGAT PUAS</p>
-                <!-- <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg">Pilih</button> -->
-              </div>
-              <div class="bg-blue-100 text-center p-6 rounded-lg shadow">
-                <p class="text-4xl font-bold text-blue-600">13</p>
-                <p class="text-lg font-medium text-gray-700">PUAS</p>
-                <!-- <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Pilih</button> -->
-              </div>
-              <div class="bg-yellow-100 text-center p-6 rounded-lg shadow">
-                <p class="text-4xl font-bold text-yellow-600">5</p>
-                <p class="text-lg font-medium text-gray-700">KURANG PUAS</p>
-                <!-- <button class="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg">Pilih</button> -->
-              </div>
-              <div class="bg-red-100 text-center p-6 rounded-lg shadow">
-                <p class="text-4xl font-bold text-red-600">1</p>
-                <p class="text-lg font-medium text-gray-700">TIDAK PUAS</p>
-                <!-- <button class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg">Pilih</button> -->
-              </div>
-            </div>
-    
-            <div>
-              <div class="mb-4">
-                <p class="text-gray-700 font-medium">Sangat Puas</p>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                  <div class="bg-green-500 h-4 rounded-full" style="width: 26.92%;"></div>
-                </div>
-              </div>
-              <div class="mb-4">
-                <p class="text-gray-700 font-medium">Puas</p>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                  <div class="bg-blue-500 h-4 rounded-full" style="width: 50%;"></div>
-                </div>
-              </div>
-              <div class="mb-4">
-                <p class="text-gray-700 font-medium">Kurang Puas</p>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                  <div class="bg-yellow-500 h-4 rounded-full" style="width: 19.23%;"></div>
-                </div>
-              </div>
-              <div class="mb-4">
-                <p class="text-gray-700 font-medium">Tidak Puas</p>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                  <div class="bg-red-500 h-4 rounded-full" style="width: 3.85%;"></div>
-                </div>
-              </div>
-            </div>
-        </div>
+          </div>
+
+          <div class="grid grid-cols-5 gap-4 mb-8">
+              @foreach ($counts as $level => $count)
+                  @php
+                      $color = match($level) {
+                          'VERY_GOOD' => 'green',
+                          'GOOD' => 'blue',
+                          'NORMAL' => 'yellow',
+                          'BAD' => 'red',
+                          default => 'gray',
+                      };
+                  @endphp
+                  <div class="bg-{{ $color }}-100 text-center p-6 rounded-lg shadow">
+                      <p class="text-4xl font-bold text-{{ $color }}-600">{{ $count }}</p>
+                      <p class="text-lg font-medium text-gray-700">{{ $satisfactionLevels[$level] }}</p>
+                  </div>
+              @endforeach
+          </div>
+
+          <div>
+              @foreach ($percentages as $level => $percentage)
+                  @php
+                      $color = match($level) {
+                          'VERY_GOOD' => 'green',
+                          'GOOD' => 'blue',
+                          'NORMAL' => 'yellow',
+                          'BAD' => 'red',
+                          default => 'gray',
+                      };
+                  @endphp
+                  <div class="mb-4">
+                      <p class="text-gray-700 font-medium">{{ $satisfactionLevels[$level] }}</p>
+                      <div class="w-full bg-gray-200 rounded-full h-4">
+                          <div class="bg-{{ $color }}-500 h-4 rounded-full" style="width: {{ round($percentage, 2) }}%;"></div>
+                      </div>
+                  </div>
+              @endforeach
+          </div>
+      </div>
     </div>
 
-    <div class="fixed bottom-4 right-4 w-48 h-72 shadow-lg z-10">
+
+    <div id="minsip-bottom-right" class="fixed bottom-4 right-4 w-48 h-72 shadow-lg z-10 hidden">
+        <a href="https://wa.me/+6281330889375" target="_blank" class="absolute bottom-2 left-[-4rem] bg-green-500 text-white px-4 py-2 rounded">
+            <i class="fab fa-whatsapp text-xl"></i>
+        </a>
+
         <img src="{{ asset('storage/app/welcome.gif') }}" alt="Welcome" class="w-full h-full object-cover rounded">
 
         <button 
             id="toggle-audio" 
-            class="absolute bottom-2 right-2 bg-blue-500 text-white px-4 py-2 rounded">
+            class="absolute bottom-2 right-2 bg-blue-500 text-white px-4 py-2 rounded hidden">
             <i id="audio-icon" class="fas fa-volume-up text-xl"></i>
         </button>
     </div>
@@ -103,12 +96,46 @@
         <p>&copy; 2024 PNBP BPTD Kelas II Bali</p>
     </footer>
 
-    <audio id="background-audio" autoplay>
+    <div id="help-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg flex relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-xl font-bold">
+                &times;
+            </button>
+
+            <div class="flex-shrink-0">
+                <img src="{{ asset('storage/app/welcome.gif') }}" alt="Help Illustration" class="w-52 h-auto rounded-l-lg">
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col justify-between">
+                <div class="pt-10">
+                    <h2 class="text-lg font-bold text-gray-800">Hallo!</h2>
+                    <p class="text-gray-600 mt-2">Butuh Bantuan Minsip?</p>
+                    <a href="https://wa.me/+6281330889375" id="whatsapp-pop-up" target="_blank" class="bg-green-500 w-32 mt-5 text-white flex items-center px-3 py-2 rounded-lg hover:bg-green-600">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    </a>
+                </div>
+                <div class="flex justify-start mt-4 space-x-2">
+
+                    <button id="help-yes" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Ya
+                    </button>
+
+                    <button id="help-no" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
+                        Tidak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="background-audio">
         <source src="{{ asset('storage/app/sip-voice.mp3') }}" type="audio/mpeg">
         Browser tidak support memutar audio.
     </audio>
 
     <script>
+        const minsip = document.getElementById('minsip-bottom-right')
+        const helpModal = document.getElementById("help-modal");
         const audio = document.getElementById('background-audio');
         const toggleButton = document.getElementById('toggle-audio');
         const audioIcon = document.getElementById('audio-icon');
@@ -121,35 +148,60 @@
     </script>
 
     <script>
-        if (!sessionStorage.getItem('highlighted')) {
-            const highlightTimings = [
-                { start: 21, end: 52, className: "informasi-layanan" },
-                { start: 52, end: 111, className: "permohonan" },
-                { start: 111, end: 127, className: "survey" },
-                { start: 127, end: 140, className: "customer-service" }
-            ];
+        document.getElementById('whatsapp-pop-up').addEventListener('click', () => {
+            helpModal.classList.add("hidden");
+            minsip.classList.remove("hidden");
+        });
 
-            const audio = document.getElementById('background-audio');
+        document.getElementById('close-modal').addEventListener('click', () => {
+            helpModal.classList.add("hidden");
+            minsip.classList.remove("hidden");
+        });
 
-            audio.addEventListener("timeupdate", () => {
-                const currentTime = audio.currentTime;
+        document.getElementById('help-no').addEventListener('click', () => {
+            helpModal.classList.add("hidden");
+            minsip.classList.remove("hidden");
+        });
 
-                highlightTimings.forEach(({ start, end, className }) => {
-                    const element = document.querySelector(`.${className}`);
-                    if (element) {
-                        if (currentTime >= start && currentTime < end) {
-                            element.classList.add("highlight");
-                            element.classList.add("rounded-xl");
-                        } else {
-                            element.classList.remove("highlight");
-                            element.classList.remove("rounded-xl");
-                        }
-                    }
-                });
-            });
+        document.getElementById('help-yes').addEventListener('click', () => {
+            helpModal.classList.add("hidden");
+            minsip.classList.remove("hidden");
+            toggleButton.classList.remove("hidden");
 
-            sessionStorage.setItem('highlighted', 'true');
-        }
+            playAudioWithDelay();
+        });
+    </script>
+
+    <script>
+      function playAudioWithDelay() {
+        audio.play();
+      };
+    </script>
+
+    <script>
+      const highlightTimings = [
+          { start: 21, end: 52, className: "informasi-layanan" },
+          { start: 52, end: 111, className: "permohonan" },
+          { start: 111, end: 127, className: "survey" },
+          { start: 127, end: 140, className: "customer-service" }
+      ];
+
+      audio.addEventListener("timeupdate", () => {
+          const currentTime = audio.currentTime;
+
+          highlightTimings.forEach(({ start, end, className }) => {
+              const element = document.querySelector(`.${className}`);
+              if (element) {
+                  if (currentTime >= start && currentTime < end) {
+                      element.classList.add("highlight");
+                      element.classList.add("rounded-xl");
+                  } else {
+                      element.classList.remove("highlight");
+                      element.classList.remove("rounded-xl");
+                  }
+              }
+          });
+      });
     </script>
 
 @endsection

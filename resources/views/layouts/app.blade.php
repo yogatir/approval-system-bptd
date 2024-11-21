@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Home Page</title>
+    <title>SIP PNBP BPTD Bali</title>
     @vite('resources/css/app.css')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="{{ route('home') }}" class="customer-service hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                    <a href="{{ route('home') }}" class="hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Home
                     </a>
 
@@ -71,7 +71,7 @@
                             </button>
 
                             <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
+                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" target="_blank" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
                                 <a href="{{ route('add-approval') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
                             </div>
                         </div>
@@ -85,14 +85,14 @@
                             </button>
 
                             <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
-                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
+                                <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" target="_blank" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
                                 <a href="#" class="openModal block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
                             </div>
                         </div>
                     @endauth
 
                     @auth
-                        <a href="{{ route('survey') }}" class="survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        <a href="{{ route('approval-list') }}" class="survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                             Survey Kepuasan Layanan
                         </a>
                     @else
@@ -101,7 +101,7 @@
                         </a>
                     @endauth
 
-                    <a href="https://wa.me/6281330889375" class="customer-service hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                    <a href="https://wa.me/+6281330889375" target="_blank" class="customer-service hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                         Customer Service
                     </a>
 
@@ -201,9 +201,33 @@
     </script>
     <script>
         $(document).ready(function() {
+            let isInsideDropdown = false;
+
             $('#mainDropdown').on('mouseenter', function(e) {
                 e.preventDefault();
-                $('#dropdownMenu').toggle();
+                if (!isInsideDropdown) {
+                    $('#dropdownMenu').show();
+                }
+            });
+
+            $('#mainDropdown').on('mouseleave', function(e) {
+                e.preventDefault();
+                setTimeout(() => {
+                    if (!isInsideDropdown) {
+                        $('#dropdownMenu').hide();
+                    }
+                }, 100);
+            });
+
+            $('#dropdownMenu').on('mouseenter', function(e) {
+                e.preventDefault();
+                isInsideDropdown = true;
+            });
+
+            $('#dropdownMenu').on('mouseleave', function(e) {
+                e.preventDefault();
+                isInsideDropdown = false;
+                $('#dropdownMenu').hide();
             });
 
             $('#objekSewa').on('mouseenter', function() {
