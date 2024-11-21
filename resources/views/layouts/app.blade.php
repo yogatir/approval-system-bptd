@@ -72,7 +72,7 @@
 
                             <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
                                 <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" target="_blank" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
-                                <a href="{{ route('add-approval') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
+                                <a href="{{ route('approval-list') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
                             </div>
                         </div>
                     @else
@@ -92,7 +92,7 @@
                     @endauth
 
                     @auth
-                        <a href="{{ route('approval-list') }}" class="survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        <a href="{{ route('survey') }}" class="survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
                             Survey Kepuasan Layanan
                         </a>
                     @else
