@@ -21,7 +21,38 @@ class OperatorController extends Controller
             $query->where('role', 'APPLICANT');
         })->get();
 
-        return view('operator-dashboard', compact('approvals'));
+        $answers = SurveyAnswer::select('user_satisfaction')->get();
+
+        $satisfactionLevels = [
+            'VERY_GOOD' => 'Sangat Puas',
+            'GOOD' => 'Puas',
+            'NORMAL' => 'Kurang Puas',
+            'BAD' => 'Tidak Puas',
+            'VERY_BAD' => 'Sangat Tidak Puas',
+        ];
+
+        $counts = [
+            'VERY_GOOD' => 0,
+            'GOOD' => 0,
+            'NORMAL' => 0,
+            'BAD' => 0,
+            'VERY_BAD' => 0,
+        ];
+
+        foreach ($answers as $answer) {
+            if (isset($counts[$answer->user_satisfaction])) {
+                $counts[$answer->user_satisfaction]++;
+            }
+        }
+
+        $totalResponses = array_sum($counts);
+
+        $percentages = [];
+        foreach ($counts as $level => $count) {
+            $percentages[$level] = $totalResponses > 0 ? ($count / $totalResponses) * 100 : 0;
+        }
+
+        return view('operator-dashboard', compact('approvals', 'satisfactionLevels', 'counts', 'percentages', 'totalResponses'));
     }
 
     public function requestView()

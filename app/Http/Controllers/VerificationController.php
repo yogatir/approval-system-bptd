@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\VisitorLog;
+use App\Models\SurveyAnswer;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +13,44 @@ class VerificationController extends Controller
 {
     public function homePageView() 
     {
-        return view('home');
+        $totalVisits = VisitorLog::count();
+        $thisMonthVisits = VisitorLog::whereBetween('created_at', [
+            now()->startOfMonth(),
+            now()->endOfMonth()
+        ])->count();
+
+        $answers = SurveyAnswer::select('user_satisfaction')->get();
+
+        $satisfactionLevels = [
+            'VERY_GOOD' => 'Sangat Puas',
+            'GOOD' => 'Puas',
+            'NORMAL' => 'Kurang Puas',
+            'BAD' => 'Tidak Puas',
+            'VERY_BAD' => 'Sangat Tidak Puas',
+        ];
+
+        $counts = [
+            'VERY_GOOD' => 0,
+            'GOOD' => 0,
+            'NORMAL' => 0,
+            'BAD' => 0,
+            'VERY_BAD' => 0,
+        ];
+
+        foreach ($answers as $answer) {
+            if (isset($counts[$answer->user_satisfaction])) {
+                $counts[$answer->user_satisfaction]++;
+            }
+        }
+
+        $totalResponses = array_sum($counts);
+
+        $percentages = [];
+        foreach ($counts as $level => $count) {
+            $percentages[$level] = $totalResponses > 0 ? ($count / $totalResponses) * 100 : 0;
+        }
+
+        return view('home', compact('totalVisits', 'thisMonthVisits','satisfactionLevels', 'counts', 'percentages', 'totalResponses'));
     }
 
     public function operatorView() 
