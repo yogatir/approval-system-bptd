@@ -37,7 +37,7 @@
                             <tbody>
                                 @foreach ($documents as $document)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $document->id }}</td>
+                                    <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="border px-4 py-2">
                                     @switch($document->type)
                                         @case('DOCUMENT_ID_CARD')
@@ -59,7 +59,7 @@
                                     </td>
                                     <td class="border px-4 py-2">{{ $document->title }}</td>
                                     <td class="text-center border px-4 py-2">
-                                        <a href="{{ asset('storage/'. $document->path) }}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                                        <a href="{{ asset($document->path) }}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                                             Buka File
                                         </a>
                                     </td>

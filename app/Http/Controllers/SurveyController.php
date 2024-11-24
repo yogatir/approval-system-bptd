@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 
 class SurveyController extends Controller
 {
@@ -65,23 +67,23 @@ class SurveyController extends Controller
                 ]);
 
                 foreach ($filePaths as $fileField => $fileInfo) {
-                    $tempPath = $fileInfo['path'];
+                    $tempPath = public_path($fileInfo['path']);
                     $fileType = $fileInfo['type'];
-
+                
                     $originalExtension = pathinfo($tempPath, PATHINFO_EXTENSION);
                     $newFileName = $user->id . '_' . $approvalData['location_id'] . '_' . now()->format('Ymd_His') . '_' . $fileField . '.' . $originalExtension;
-
-                    $newFilePath = 'uploads/' . $newFileName;
-                    
-                    Storage::disk('public')->move($tempPath, $newFilePath);
-
-                    Document::create([
-                        'user_id' => $user->id,
-                        'approval_id' => $approval->id,
-                        'title' => $newFileName,
-                        'type' => $fileType,
-                        'path' => $newFilePath
-                    ]);
+                
+                    $newFilePath = public_path('images/upload/' . $newFileName);
+                
+                    if (File::move($tempPath, $newFilePath)) {
+                        Document::create([
+                            'user_id' => $user->id,
+                            'approval_id' => $approval->id,
+                            'title' => $newFileName,
+                            'type' => $fileType,
+                            'path' => 'images/upload/' . $newFileName
+                        ]);
+                    }
                 }
 
                 Auth::login($user);
@@ -100,7 +102,7 @@ class SurveyController extends Controller
 
             DB::commit();
 
-            return redirect()->route('home');
+            return redirect()->route('approval-list');
         } catch (err) {
             DB::rollback();
 

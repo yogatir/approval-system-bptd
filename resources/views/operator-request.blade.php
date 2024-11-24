@@ -32,7 +32,7 @@
                                     $rentStatus = getStatusClass($approval->rental_approval);
                                 @endphp
                                     <tr>
-                                        <td class="border px-4 py-2">{{ $approval->id }}</td>
+                                        <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                                         <td class="border px-4 py-2">{{ $approval->user->name }}</td>
                                         <td class="border px-4 py-2">
                                             <a href="{{ route('operator-documents', ['approval' => $approval->id, 'action' => 'doc_approval']) }}" class="{{ $docStatus[1] }} text-black border-black border text-sm px-4 py-2 rounded-md">

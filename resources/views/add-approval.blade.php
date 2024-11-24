@@ -157,29 +157,23 @@
                                 <select name="detail_location" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white">
                                     <option value="">-- Pilih Lokasi --</option>
                                     <option value="" disabled>Food Court</option>
-                                    <option value="FC1">FC 1</option>
-                                    <option value="FC2">FC 2</option>
-                                    <option value="FC3">FC 3</option>
-                                    <option value="FC4">FC 4</option>
-                                    <option value="FC5">FC 5</option>
-                                    <option value="FC6">FC 6</option>
-                                    <option value="FC7">FC 7</option>
-                                    <option value="FC8">FC 8</option>
+                                    @foreach($foodCourt as $fc)
+                                        <option value="{{ $fc->detail_location }}">{{ $fc->detail_location }}</option>
+                                    @endforeach
                                     <option value="" disabled>AKAP</option>
-                                    <option value="A1">A 1</option>
-                                    <option value="A2">A 2</option>
-                                    <option value="A3">A 3</option>
-                                    <option value="A4">A 4</option>
-                                    <option value="A5">A 5</option>
-                                    <option value="A6">A 6</option>
-                                    <option value="A7">A 7</option>
-                                    <option value="A8">A 8</option>
+                                    @foreach($akap as $a)
+                                        <option value="{{ $a->detail_location }}">{{ $a->detail_location }}</option>
+                                    @endforeach
                                     <option value="" disabled>AKDP</option>
-                                    <option value="D1">D 1</option>
-                                    <option value="D2">D 2</option>
-                                    <option value="D3">D 3</option>
-                                    <option value="D4">D 4</option>
-                                    <option value="D5">D 5</option>
+                                    @foreach($akdp as $d)
+                                        <option value="{{ $d->detail_location }}">{{ $d->detail_location }}</option>
+                                    @endforeach
+                                    <option value="" disabled>Lainnya atau bukan bangunan</option>
+                                    <option value="Booth Stand">Booth Stand</option>
+                                    <option value="Dinding & Layar Digital">Dinding & Layar Digital</option>
+                                    <option value="Ruang Koridor">Ruang Koridor</option>
+                                    <option value="Tanah / Lahan Kosong">Tanah / Lahan Kosong</option>
+                                    <option value="Loket">Loket</option>
                                 </select>
                             </div>
                         </div>                        

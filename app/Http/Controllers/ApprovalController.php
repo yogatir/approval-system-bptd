@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\Approval;
+use App\Models\Floor;
 use Illuminate\Support\Str;
 use App\Models\Document;
 use Carbon\Carbon;
@@ -20,7 +21,11 @@ class ApprovalController extends Controller
         $locations = Location::all();
         $user = auth()->user();
 
-        return view('add-approval', compact('locations','user'));
+        $akap = Floor::where('detail_location', 'like', 'A%')->where('is_used', 0)->get();
+        $akdp = Floor::where('detail_location', 'like', 'D%')->where('is_used', 0)->get();
+        $foodCourt = Floor::where('detail_location', 'like', 'FC%')->where('is_used', 0)->get();
+
+        return view('add-approval', compact('locations','user', 'akap', 'akdp', 'foodCourt'));
     }
 
     public function listApprovalView()
@@ -81,23 +86,23 @@ class ApprovalController extends Controller
             'file_id_card.required' => 'File KTP wajib diunggah.',
             'file_id_card.file' => 'File KTP harus berupa file.',
             'file_id_card.mimes' => 'File KTP harus berformat PDF.',
-            'file_id_card.max' => 'File KTP tidak boleh lebih dari 512 KB.',
+            'file_id_card.max' => 'File KTP tidak boleh lebih dari 1024 KB.',
             'file_npwp.required' => 'File NPWP wajib diunggah.',
             'file_npwp.file' => 'File NPWP harus berupa file.',
             'file_npwp.mimes' => 'File NPWP harus berformat PDF.',
-            'file_npwp.max' => 'File NPWP tidak boleh lebih dari 512 KB.',
+            'file_npwp.max' => 'File NPWP tidak boleh lebih dari 1024 KB.',
             'file_document_request.required' => 'File Surat Permohonan wajib diunggah.',
             'file_document_request.file' => 'File Surat Permohonan harus berupa file.',
             'file_document_request.mimes' => 'File Surat Permohonan harus berformat PDF.',
-            'file_document_request.max' => 'File Surat Permohonan tidak boleh lebih dari 512 KB.',
+            'file_document_request.max' => 'File Surat Permohonan tidak boleh lebih dari 1024 KB.',
             'file_agreement.required' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata wajib diunggah.',
             'file_agreement.file' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata harus berupa file.',
             'file_agreement.mimes' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata harus berformat PDF.',
-            'file_agreement.max' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata tidak boleh lebih dari 512 KB.',
+            'file_agreement.max' => 'File Surat Pernyataan Kesediaan Menjaga Objek Wisata tidak boleh lebih dari 1024 KB.',
             'file_permit.required' => 'File Surat Ijin Usaha wajib diunggah.',
             'file_permit.file' => 'File Surat Ijin Usaha harus berupa file.',
             'file_permit.mimes' => 'File Surat Ijin Usaha harus berformat PDF.',
-            'file_permit.max' => 'File Surat Ijin Usaha tidak boleh lebih dari 512 KB.',
+            'file_permit.max' => 'File Surat Ijin Usaha tidak boleh lebih dari 1024 KB.',
         ]);        
     
         $datetime = now()->format('Ymd_His');
@@ -115,12 +120,13 @@ class ApprovalController extends Controller
         $filePaths = [];
     
         foreach ($fileFields as $fileField => $fileType) {
-            if ($request->hasFile($fileField)) {
+            if ($request->file($fileField)) {
                 $originalExtension = $request->file($fileField)->getClientOriginalExtension();
                 $fileName = $uuid . '_' . $locationId . '_' . $datetime . '_' . $fileField . '.' . $originalExtension;
-    
-                $filePath = $request->file($fileField)->storeAs('temps', $fileName, 'public');
-    
+        
+                $filePath = 'images/temp/' . $fileName;
+                $request->file($fileField)->move(public_path('images/temp'), $fileName);
+        
                 $filePaths[$fileField] = [
                     'path' => $filePath,
                     'type' => $fileType
@@ -141,6 +147,8 @@ class ApprovalController extends Controller
     public function approvalView()
     {
         $approvals = Approval::all();
+
+
         return view('approval-list', compact('approvals'));
     }
 
