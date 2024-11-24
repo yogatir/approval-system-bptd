@@ -154,7 +154,7 @@ class OperatorController extends Controller
         $request->validate([
             'approval_id' => 'required|integer|exists:approvals,id',
             'code' => 'required|string',
-            'file_billing' => 'required|file|mimes:pdf|max:512',
+            'file_billing' => 'required|file|mimes:pdf|max:1024',
             'description' => 'nullable|string'
         ]);
 
@@ -172,8 +172,7 @@ class OperatorController extends Controller
     
         $fileName = $approval->user->id . '_' . $approval->location->id . '_' . $datetime . '_file_billing.' . $originalExtension;
         
-        $filePath = $request->file('file_billing')->storeAs('uploads', $fileName, 'public');
-    
+        $filePath = $request->file('file_billing')->move(public_path('images/upload'), $fileName);
 
         Document::create([
             'user_id' => $approval->user->id,

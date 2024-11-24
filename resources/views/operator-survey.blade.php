@@ -26,7 +26,7 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td class="border px-4 py-2">{{ $user->id }}</td>
+                                        <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                                         <td class="border px-4 py-2">{{ $user->name }}</td>
                                         <td class="border px-4 py-2">{{ $user->id_card_no }}</td>
                                         <td class="border px-4 py-2">

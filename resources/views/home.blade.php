@@ -7,9 +7,9 @@
         </div>
     </div>
 
-    <div style="background-image: url('{{ asset('storage/app/home-bg.jpeg') }}');" class="bg-cover bg-center bg-no-repeat min-h-[calc(100vh-64px)] w-full z-10">
+    <div style="background-image: url('{{ asset('images/web/home-bg.jpeg') }}');" class="bg-cover bg-center bg-no-repeat min-h-[calc(100vh-64px)] w-full z-10">
         <div class="relative p-6 rounded-lg shadow-lg text-center flex items-center justify-center min-h-[calc(100vh-64px)]">
-            <img src="{{ asset('storage/app/home-logo.png') }}" class="absolute top-[80px]" alt="">
+            <img src="{{ asset('images/web/home-logo.png') }}" class="absolute top-[80px]" alt="">
         </div>
     </div>
 
@@ -83,7 +83,7 @@
             <i class="fab fa-whatsapp text-xl"></i>
         </a>
 
-        <img src="{{ asset('storage/app/welcome.gif') }}" alt="Welcome" class="w-full h-full object-cover rounded">
+        <img src="{{ asset('images/web/welcome.gif') }}" alt="Welcome" class="w-full h-full object-cover rounded">
 
         <button 
             id="toggle-audio" 
@@ -103,7 +103,7 @@
             </button>
 
             <div class="flex-shrink-0">
-                <img src="{{ asset('storage/app/welcome.gif') }}" alt="Help Illustration" class="w-52 h-auto rounded-l-lg">
+                <img src="{{ asset('images/web/welcome.gif') }}" alt="Help Illustration" class="w-52 h-auto rounded-l-lg">
             </div>
 
             <div class="p-6 flex-1 flex flex-col justify-between">
@@ -129,7 +129,7 @@
     </div>
 
     <audio id="background-audio">
-        <source src="{{ asset('storage/app/sip-voice.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('images/web/sip-voice.mp3') }}" type="audio/mpeg">
         Browser tidak support memutar audio.
     </audio>
 

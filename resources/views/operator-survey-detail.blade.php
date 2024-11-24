@@ -37,7 +37,7 @@
                             <tbody>
                                 @foreach ($surveys as $survey)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $survey->id }}</td>
+                                    <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="border px-4 py-2">{{ $survey->survey_id }}</td>
                                     <td class="border px-4 py-2">{{ $survey->user_satisfaction }}</td>
                                     <td class="border px-4 py-2">{{ $survey->user_importance }}</td>

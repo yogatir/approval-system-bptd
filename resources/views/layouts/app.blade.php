@@ -20,13 +20,13 @@
         }
     </style>
 </head>
-<body style="background-image: url('{{ asset('storage/app/home-bg.jpeg') }}');" class="bg-cover bg-center bg-no-repeat min-h-[calc(100vh)] w-full">
+<body style="background-image: url('{{ asset('images/web/home-bg.jpeg') }}');" class="bg-cover bg-center bg-no-repeat min-h-[calc(100vh)] w-full">
 
     <nav class="bg-white shadow-lg">
         <div class="max-w-10xl mx-auto px-4">
             <div class="flex justify-between h-24">
                 <div class="flex items-center">
-                    <img src="{{ asset('storage/app/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
+                    <img src="{{ asset('images/web/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
                 </div>
 
                 <div class="hidden md:flex space-x-6 items-center">

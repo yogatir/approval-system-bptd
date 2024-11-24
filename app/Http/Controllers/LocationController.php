@@ -12,8 +12,11 @@ class LocationController extends Controller
 {
     public function terminalMengwiView() 
     {
-        $floors = Floor::get();
+        $akap = Floor::where('detail_location', 'like', 'A%')->get();
+        $akdp = Floor::where('detail_location', 'like', 'D%')->get();
+        $foodCourt = Floor::where('detail_location', 'like', 'FC%')->get();
 
-        return view('terminal-mengwi', compact('floors'));
+
+        return view('terminal-mengwi', compact('akap','akdp','foodCourt'));
     }
 }

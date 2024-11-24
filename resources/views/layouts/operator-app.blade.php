@@ -44,7 +44,7 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-24">
                 <div class="flex items-center">
-                    <img src="{{ asset('storage/app/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
+                    <img src="{{ asset('images/web/navbar-logo.png') }}" alt="Logo" class="h-16 mr-3">
                 </div>
 
                 <div class="hidden md:flex space-x-6 items-center">
