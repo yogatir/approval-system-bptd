@@ -112,7 +112,7 @@
                     </div>
                     <p class="text-md font-semibold">Lokasi strategis bagi calon mitra untuk usaha bisnis makanan dan minuman.</p>
                     <ol>
-                        <li>Ukuran   : 3,5 m x 5 m</li>
+                        <li>Ukuran   : 3,5 m x 4.5 m</li>
                         <li>Fasilitas : Listrik, Air, Meja dan kursi</li>
                         <li>Nilai Sewa : Rp. 8.000.000/ Tahun</li>
                     </ol>

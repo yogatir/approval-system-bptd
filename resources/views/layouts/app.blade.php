@@ -86,7 +86,7 @@
 
                             <div class="absolute left-0 mt-0 group-hover:block hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10">
                                 <a href="https://drive.google.com/drive/folders/1NJJc0_Xd-dbZLm6WvRWRU0FJWGsHyZft" target="_blank" class="block px-4 py-2 text-sm hover:bg-gray-100">Draft Dokumen Permohonan</a>
-                                <a href="#" class="openModal block px-4 py-2 text-sm hover:bg-gray-100">Pengajuan Permohonan</a>
+                                <a href="#" class="openModal block px-4 py-2 text-sm hover:bg-gray-100" data-route="approval-list">Pengajuan Permohonan</a>
                             </div>
                         </div>
                     @endauth
@@ -96,7 +96,7 @@
                             Survey Kepuasan Layanan
                         </a>
                     @else
-                        <a href="#" class="openModal survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium">
+                        <a href="#" class="openModal survey hover:border-indigo-500 text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm border-transparent font-medium" data-route="survey">
                             Survey Kepuasan Layanan
                         </a>
                     @endauth
@@ -147,6 +147,7 @@
             <h2 class="text-xl font-semibold mb-4">Daftar / Masuk</h2>
             <form id="ktpForm" method="POST" action="{{ route('submit-id-card-no') }}">
                 @csrf
+                <input type="hidden" name="redirect_route" id="redirectRoute" value="">
                 <div class="mb-4">
                     <label for="ktp" class="block text-sm font-medium text-gray-700">No KTP</label>
                     <input type="text" name="id_card_no" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -182,6 +183,8 @@
             // Add click event listeners to all buttons with the class 'openModal'
             Array.from(openModalButtons).forEach(button => {
                 button.addEventListener('click', function() {
+                    const route = this.getAttribute('data-route');
+                    document.getElementById('redirectRoute').value = route;
                     modal.classList.remove('hidden');
                 });
             });

@@ -75,12 +75,23 @@ class VerificationController extends Controller
 
         if ($user) {
             Auth::login($user);
-            return redirect(route('approval-list'));
+            if ($request->input('redirect_route') === 'survey') {
+                return redirect(route('survey'));
+            } else {
+                return redirect(route('approval-list'));
+            }
         } else {
-            return redirect()->route('add-approval')->with([
-                'id_card_no' => $idCardNo,
-                'phone' => $phone
-            ]);
+            if ($request->input('redirect_route') === 'survey') {
+                return redirect()->route('survey')->with([
+                    'id_card_no' => $idCardNo,
+                    'phone' => $phone
+                ]);
+            } else {
+                return redirect()->route('add-approval')->with([
+                    'id_card_no' => $idCardNo,
+                    'phone' => $phone
+                ]);
+            }
         }
     }
 

@@ -86,14 +86,26 @@ class SurveyController extends Controller
                     }
                 }
 
+                session()->forget(['approvalData', 'approvalFiles']);
+
                 Auth::login($user);
             } else {
                 $user = auth()->user();
+
+                if (!$user) {
+                    $user = (object) [
+                        'id_card_no' => $request->input('id_card_no'),
+                        'phone' => $request->input('phone'),
+                        'id' => null
+                    ];
+                }
             }
 
             foreach ($validated['satisfaction'] as $questionId => $satisfaction) {
                 $surveyAnswer = new SurveyAnswer();
                 $surveyAnswer->user_id = $user->id;
+                $surveyAnswer->id_card_no = $user->id_card_no;
+                $surveyAnswer->phone = $user->phone;
                 $surveyAnswer->survey_id = $questionId;
                 $surveyAnswer->user_satisfaction = $satisfaction;
                 $surveyAnswer->user_importance = $validated['importance'][$questionId];
@@ -106,7 +118,13 @@ class SurveyController extends Controller
         } catch (err) {
             DB::rollback();
 
-            return redirect()->route('survey');
+            $idCardNo = $request->input('id_card_no');
+            $phone = $request->input('phone');
+
+            return redirect()->route('survey')->with([
+                'id_card_no' => $idCardNo,
+                'phone' => $phone
+            ]);
         }
     }
 }

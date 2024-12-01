@@ -19,7 +19,7 @@
                                 <tr>
                                     @foreach ($floors as $floor)
                                         <td 
-                                            class="border px-4 py-2 text-center cursor-pointer {{ $floor->is_used === 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}"
+                                            class="border px-4 py-2 text-center cursor-pointer {{ $floor->is_used === 1 ? 'bg-red-500 text-white' : 'bg-green-500 text-white' }}"
                                             x-data
                                             x-on:click="$dispatch('open-popup', { id: {{ $floor->id }}, userId: '{{ $floor->user_id }}', isUsed: {{ $floor->is_used }}, location: '{{ $floor->detail_location }}' })"
                                         >

@@ -34,7 +34,8 @@ class FloorSeeder extends Seeder
             ['location_id' => 1, 'detail_location' => 'FC 4', 'created_at' => now(), 'updated_at' => now()],
             ['location_id' => 1, 'detail_location' => 'FC 5', 'created_at' => now(), 'updated_at' => now()],
             ['location_id' => 1, 'detail_location' => 'FC 6', 'created_at' => now(), 'updated_at' => now()],
-            ['location_id' => 1, 'detail_location' => 'FC 7', 'created_at' => now(), 'updated_at' => now()]
+            ['location_id' => 1, 'detail_location' => 'FC 7', 'created_at' => now(), 'updated_at' => now()],
+            ['location_id' => 1, 'detail_location' => 'FC 8', 'created_at' => now(), 'updated_at' => now()]
         ]);
     }
 }
