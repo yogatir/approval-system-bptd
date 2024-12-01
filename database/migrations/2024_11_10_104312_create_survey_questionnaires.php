@@ -19,7 +19,9 @@ return new class extends Migration
 
         Schema::create('survey_answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger(column: 'user_id')->nullable();
+            $table->string('id_card_no');
+            $table->string('phone');
             $table->unsignedBigInteger('survey_id');
             $table->enum('user_satisfaction', ['VERY_BAD', 'BAD', 'NORMAL', 'GOOD', 'VERY_GOOD']);
             $table->enum('user_importance', ['NOT_IMPORTANT', 'LESS_IMPORTANT', 'FAIRLY_IMPORTANT', 'IMPORTANT', 'VERY_IMPORTANT']);

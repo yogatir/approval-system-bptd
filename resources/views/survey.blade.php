@@ -6,6 +6,9 @@
             <form action="{{ route('survey-submit') }}" method="POST">
                 @csrf
 
+                <input type="hidden" name="id_card_no" value="{{ session('id_card_no') }}">
+                <input type="hidden" name="phone" value="{{ session('phone') }}">
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>

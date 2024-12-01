@@ -148,7 +148,6 @@ class ApprovalController extends Controller
     {
         $approvals = Approval::all();
 
-
         return view('approval-list', compact('approvals'));
     }
 
