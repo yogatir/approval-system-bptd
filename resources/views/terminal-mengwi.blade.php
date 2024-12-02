@@ -19,7 +19,7 @@
                                 <tbody>
                                     <tr>
                                         @foreach ($akdp as $d)
-                                            <td class="border text-2xl px-4 py-2 text-center {{ $d->is_used === 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                                            <td class="border text-2xl px-4 py-2 text-center {{ $d->is_used === 1 ? 'bg-red-500 text-white' : 'bg-green-500 text-white' }}">
                                                 {{ $d->detail_location }}
                                             </td>
                                         @endforeach
@@ -60,7 +60,7 @@
                                 <tbody>
                                     <tr>
                                         @foreach ($akap as $a)
-                                            <td class="border text-xs px-4 py-2 text-center {{ $a->is_used === 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                                            <td class="border text-xs px-4 py-2 text-center {{ $a->is_used === 1 ? 'bg-red-500 text-white' : 'bg-green-500 text-white' }}">
                                                 {{ $a->detail_location }}
                                             </td>
                                         @endforeach
@@ -101,7 +101,7 @@
                                 <tbody>
                                     <tr>
                                         @foreach ($foodCourt as $fc)
-                                            <td class="border text-xs px-4 py-2 text-center {{ $fc->is_used === 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                                            <td class="border text-xs px-4 py-2 text-center {{ $fc->is_used === 1 ? 'bg-red-500 text-white' : 'bg-green-500 text-white' }}">
                                                 {{ $fc->detail_location }}
                                             </td>
                                         @endforeach
