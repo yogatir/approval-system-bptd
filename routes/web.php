@@ -122,6 +122,10 @@ Route::middleware([LogVisitorMiddleware::class])->group(function(){
     Route::get('/terminal-mengwi', [
         LocationController::class, 'terminalMengwiView'
     ])->name('terminal-mengwi');
+
+    Route::get('/pelabuhan-sampalan', [
+        LocationController::class, 'pelabuhanSampalanView'
+    ])->name('pelabuhan-sampalan');
     
     Route::get('/regulation', [
         ApprovalController::class, 'regulationView'
