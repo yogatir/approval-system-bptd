@@ -19,4 +19,9 @@ class LocationController extends Controller
 
         return view('terminal-mengwi', compact('akap','akdp','foodCourt'));
     }
+
+    public function pelabuhanSampalanView() 
+    {
+        return view('pelabuhan-sampalan');
+    }
 }

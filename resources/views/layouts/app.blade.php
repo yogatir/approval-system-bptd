@@ -55,6 +55,7 @@
 
                                 <div id="submenu" class="absolute hidden bg-white text-gray-700 py-2 w-48 border rounded shadow-md z-10 left-full top-0">
                                     <a href="{{ route('terminal-mengwi') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Terminal Mengwi</a>
+                                    <a href="{{ route('pelabuhan-sampalan') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Pelabuhan Sampalan</a>
                                     <!-- <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Pelabuhan Sampalan</a> -->
                                 </div>
                             </div>
